@@ -36,9 +36,9 @@ class Evidential_Blackmail(Decision_Problem):
                                ("no crash+no blackmail", "DONT"):"no crash+no pay",
                               }
 
-        self.utility_dict = {"no crash+no pay":11,
+        self.utility_dict = {"no crash+no pay":15,
                              "no crash+pay":10,
-                             "crash+no pay":1,
+                             "crash+no pay":5,
                              "crash+pay":0
                             }
         self.description = "Evidential_Blackmail"
