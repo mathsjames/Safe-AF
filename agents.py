@@ -116,7 +116,7 @@ class Simple_Agent:
                 self.times_action_taken[epistemic_state][action] += 1
                 
                 
-class More_Advanced_Agent:
+class More_Advanced_Agent(Simple_Agent):
 
     def get_action_distribution(self, epistemic_state):
         xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
