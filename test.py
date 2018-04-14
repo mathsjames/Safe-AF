@@ -10,32 +10,37 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
+
 softmax = Softmax(100)
 epsilongreedy = Epsilon_Greedy(0.01)
+
 average = Average()
 idf = Identity_Function()
 
-test_configs = [(AMD, softmax, average),
-                (AMD, epsilongreedy, average),
-                (EB, softmax, idf),
-                (EB, epsilongreedy, idf)]
-    
-for decision_problem, exploration_scheme, learning_scheme in test_configs:
+test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+                ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+
+for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+
+    print(dp_name)
+    print(agent_description)
 
     for i in range(iterations):
-        
+
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
-        
-        total_utility = 0
-        
+
         for j in range(epochs):
             history = decision_problem.run(agent, batch_size)
             agent.learn_from(history)
 
-        print(agent.total_utility)
-        # optimal value: 4/3
+        print("Average utility: " + str(agent.total_utility/agent.games_played))
 
-        print(agent.get_action_distribution("Intersection")[0])
-        # optimal value: 2/3
-        
+        for state in interesting_states:
+            print(state + ":")
+            print(agent.get_action_distribution(state))
+
         print()
+
+    print("###")
