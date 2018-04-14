@@ -14,9 +14,9 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
-G2EB = General2by2([(10,0),(11,1)],lambda dist: dist )
+G2EB = General2by2([(10,0),(11,1)],lambda dist: dist, "Evidential Blackmail" )
 DiD = Death_In_Damascus()
-G2DiD = General2by2([(0,5),(5,0)],lambda dist: dist )
+G2DiD = General2by2([(0,5),(5,0)],lambda dist: dist, "Death in Damascus" )
 PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
