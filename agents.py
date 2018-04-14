@@ -23,21 +23,17 @@ class More_Advanced_Softmax:
         temperature = cooling_function(games_played)
         x = [i/temperature for i in x]
         e_x = np.exp(x-np.max(x))
-<<<<<<< HEAD
         return e_x / e_x.sum(axis=0)
-=======
-        return e_x / e_x.sum(axis=0)        
-        
-        
+
+
 def exponential_cooling(games_played):
     # Example of cooling function
-    temperature = 1000*(0.999**games_played)     
+    temperature = 1000*(0.999**games_played)
     return temperature
-          
-          
->>>>>>> 13616e30a3d6ca2ec3ddcce60054373c80548d0d
 
-        
+
+
+
 class Epsilon_Greedy:
 
     def __init__(self, epsilon):
@@ -119,15 +115,9 @@ class Simple_Agent:
                 exp = self.expected_utility[epistemic_state][action]
                 self.expected_utility[epistemic_state][action] = (utility+exp*i)/(i+1.0)
                 self.times_action_taken[epistemic_state][action] += 1
-<<<<<<< HEAD
 
 
-class More_Advanced_Agent:
-=======
-                
-                
 class More_Advanced_Agent(Simple_Agent):
->>>>>>> 13616e30a3d6ca2ec3ddcce60054373c80548d0d
 
     def get_action_distribution(self, epistemic_state):
         xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
