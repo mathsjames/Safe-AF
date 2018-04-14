@@ -9,7 +9,7 @@ from sleeping_beauty import *
 from agents import *
 
 repetitions = 1 # for testing stability
-iterations = 100
+iterations = 10000
 #epochs = 1000
 #batch_size = 1
 
@@ -23,25 +23,25 @@ PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
 
-softmax = Softmax(0.1)
+softmax = Softmax(10)
 epsilongreedy = Epsilon_Greedy(0.01)
 
 total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
-                ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+test_configs = [("Softmax + Average", AMD, softmax, total, ["Intersection"]),
+                #("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 #("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
                 #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                #("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
                 #("Softmax", SB1, softmax, idf, ["Awake"]),
                 #("Softmax", SB2, softmax, idf, ["Awake"]),
-                #("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
-                ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                ("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
+                #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
-                #("Softmax", PDS, softmax, average, ["START"]),
+                ("Softmax", PDS, softmax, average, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, softmax, average, ["NewRound"])
