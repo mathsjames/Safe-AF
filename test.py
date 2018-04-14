@@ -9,7 +9,7 @@ epochs = 10000
 batch_size = 1
 
 AMD = Absent_Minded_Driver()
-EB = Evidential_Blackmail
+EB = Evidential_Blackmail()
 softmax = Softmax(100)
 epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
