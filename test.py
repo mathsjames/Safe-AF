@@ -2,6 +2,7 @@ import numpy as np
 
 from absent_minded_driver import Absent_Minded_Driver
 from evidential_blackmail import Evidential_Blackmail
+from general2by2game import General2by2
 from agents import *
 
 iterations = 5
@@ -10,6 +11,7 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
+G2EB = General2by2([(1000,0),(1001,1)],lambda dist: dist )
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -20,7 +22,8 @@ idf = Identity_Function()
 test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("PD against self by general2by2", "Softmax + Average", G2EB, softmax, average, ["Intersection"])]
 
 for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
