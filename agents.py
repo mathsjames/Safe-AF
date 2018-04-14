@@ -49,7 +49,7 @@ class Average:
         ans = []
         for episode in history:
             average_utility = sum([i[2] for i in episode])/len(episode)
-            ans.append([])
+            ans.append([(epistemic_state, action, average_utility) for (epistemic_state, action, _) in episode])
         return ans
 
 ## Agents ##

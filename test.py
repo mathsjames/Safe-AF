@@ -5,13 +5,13 @@ from evidential_blackmail import Evidential_Blackmail
 from agents import *
 
 iterations = 5
-epochs = 10000
+epochs = 100000
 batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
 
-softmax = Softmax(100)
+softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
 
 average = Average()
