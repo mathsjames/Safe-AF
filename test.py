@@ -14,9 +14,10 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
-G2EB = General2by2([(10,0),(11,1)],lambda dist: dist, "Evidential Blackmail" )
+G2EB = General2by2(lambda dummy: [(10,0),(11,1)],lambda dist: dist, "Evidential Blackmail" )
 DiD = Death_In_Damascus()
-G2DiD = General2by2([(0,5),(5,0)],lambda dist: dist, "Death in Damascus" )
+G2DiD = General2by2(lambda dummy: [(0,5),(5,0)],lambda dist: dist, "Death in Damascus" )
+G2NPR = General2by2(lambda dist: [(dist[0]*10,dist[0]*10),(dist[0]*10+1,dist[0]*10+1)],lambda dist: [1,0], "Newcombs problem with rewared proportional to 1 box probability" )
 PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
@@ -42,7 +43,8 @@ test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
                 #("Softmax", PDS, softmax, average, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                ("Softmax", G2EB, softmax, average, ["NewRound"])               
+                ("Softmax", G2EB, softmax, average, ["NewRound"]),
+                ("Softmax", G2NPR, softmax, average, ["NewRound"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
