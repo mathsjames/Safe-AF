@@ -5,7 +5,7 @@ class General2by2(Decision_Problem):
     
     # A general implementation of 2 by 2 problems such as PD vs self and EB only looking at cases where blackmail is sent
 
-    def __init__(self,rewards,response_distribution):   
+    def __init__(self,rewards,response_distribution,name):   
         self.actions = ["action1", "action2"]
         
         self.states = ["response1", "response2", 
@@ -34,8 +34,8 @@ class General2by2(Decision_Problem):
                              "action2+response1":rewards[1][0],
                              "action2+response2":rewards[1][1],
                             }
-
-        self.description = "2by2 Game"
+        
+        self.description = "2by2 Game: "+name
 
         self.response_distribution=response_distribution
                 
@@ -43,5 +43,4 @@ class General2by2(Decision_Problem):
         self.finished = False
         action_distribution = agent.get_action_distribution("NewRound")
         response = np.random.choice(["response1","response2"], 1, p=self.response_distribution(action_distribution))[0]
-        action = np.random.choice(self.actions, 1, p=action_distribution)[0]
-        self.state = action+"+"+response
+        self.state = response
