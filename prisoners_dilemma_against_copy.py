@@ -35,6 +35,8 @@ class Prisoners_Dilema_agians_coppy(Decision_Problem):
                              "defect+copy coperates":11,
                              "defect+copy defects":1}
 
+        self.description = "Prisoner's Dilemma Against Copy"
+
 
         def reset_with(self, agent):
             self.finished = False

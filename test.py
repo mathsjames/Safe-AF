@@ -17,24 +17,21 @@ epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
-                ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
-                ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("damascus", "Softmax + ID", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("damascus", "Epsilon Greedy + ID", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])]
+test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+                ("Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("Softmax + ID", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("Epsilon Greedy + ID", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])]
 
-for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
-    print(dp_name)
+    print(decision_problem.description)
     print(agent_description)
 
     for i in range(iterations):
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
-
-
-
 
         for j in range(epochs):
             history = decision_problem.run(agent, batch_size)
