@@ -31,7 +31,6 @@ class Decision_Problem:
 
                 epistemic_state = self.epistemic_state()
                 action_distribution = agent.get_action_distribution(epistemic_state)
-                print(action_distribution)
                 action = np.random.choice(self.actions, 1, p=action_distribution)[0]
                 _, utility = self.do(action)
 
