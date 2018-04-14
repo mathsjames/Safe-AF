@@ -20,7 +20,9 @@ idf = Identity_Function()
 test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("damascus", "Softmax + ID", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("damascus", "Epsilon Greedy + ID", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])]
 
 for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
