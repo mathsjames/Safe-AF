@@ -55,12 +55,12 @@ class Decision_Problem:
                 distribution_history[state].append(agent.get_action_distribution(state)[0])
                 #distribution_history[state].append(agent.expected_utility[state][agent.actions[1]])
 
-        for state in interesting_states:
-            plt.plot(distribution_history[state])
-            plt.title("Probability of " + agent.actions[0] + " in " + state)
-            plt.show()
+        #for state in interesting_states:
+            #plt.plot(distribution_history[state])
+            #plt.title("Probability of " + agent.actions[0] + " in " + state)
+            #plt.show()
 
-        return history
+        return history, distribution_history
 
     def do(self, action):
 

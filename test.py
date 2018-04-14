@@ -7,9 +7,10 @@ from death_in_damascus import Death_In_Damascus
 from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from agents import *
+import matplotlib.pyplot as plt
 
-repetitions = 1 # for testing stability
-iterations = 10000
+repetitions = 10 # for testing stability
+iterations = 1000
 #epochs = 1000
 #batch_size = 1
 
@@ -23,7 +24,7 @@ PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
 
-softmax = Softmax(10)
+softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
 
 total = Total()
@@ -36,7 +37,7 @@ test_configs = [("Softmax + Average", AMD, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                #("Softmax", SB1, softmax, idf, ["Awake"]),
+                #("Softmax", SB1, softmax, idf, ["Awake"]),joar.
                 #("Softmax", SB2, softmax, idf, ["Awake"]),
                 ("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
@@ -52,12 +53,14 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
     print(decision_problem.description)
     print(agent_description)
 
+    distribution_histories = []
+
     for i in range(repetitions):
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
-        history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
-
+        history, distribution_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
+        distribution_histories.append(distribution_history)
         #for j in range(epochs):
             #history = decision_problem.run(agent, batch_size, learn=True)
             #agent.learn_from(history)
@@ -72,6 +75,14 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
                 p = agent.get_action_distribution(state)[i]
                 print(a + ": " + str(p))
 
+                #for state in interesting_states:
+
         print()
+
+    for state in interesting_states:
+        for distribution_history in distribution_histories:
+            plt.plot(distribution_history[state])
+        plt.title("Probability of " + agent.actions[0] + " in " + state)
+        plt.show()
 
     print("###")
