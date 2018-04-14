@@ -43,5 +43,4 @@ class General2by2(Decision_Problem):
         self.finished = False
         action_distribution = agent.get_action_distribution("NewRound")
         response = np.random.choice(["response1","response2"], 1, p=self.response_distribution(action_distribution))[0]
-        action = np.random.choice(self.actions, 1, p=action_distribution)[0]
-        self.state = action+"+"+response
+        self.state = response
