@@ -44,6 +44,23 @@ def exponential_cooling(games_played):
     temperature = 100*(0.99**games_played)
     return temperature
 
+
+class Epsilon_Greedy:
+
+    def __init__(self, epsilon):
+        self.epsilon = float(epsilon)
+
+    def function(self, x):
+        exploring = np.random.choice([True, False], 1, p=[self.epsilon, 1-self.epsilon])[0]
+
+        if exploring:
+            return [1.0/len(x) for i in x]
+        else:
+            mx = max(x)
+            mxs = list(filter(lambda x: x == mx, x))
+            return [1.0/len(mxs) if i==mx else 0 for i in x]
+
+
 ## Training data preprocessing functions ##
 
 class Identity_Function: # Should be used for all 1-step games
