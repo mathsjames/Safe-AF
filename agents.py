@@ -23,25 +23,13 @@ class More_Advanced_Softmax:
         temperature = cooling_function(games_played)
         x = [i/temperature for i in x]
         e_x = np.exp(x-np.max(x))
-<<<<<<< HEAD
         return e_x / e_x.sum(axis=0)
 
 
-=======
-
-        return e_x / e_x.sum(axis=0)        
-        
-        
->>>>>>> e1a46068e5fc421ca773c7341bfc1e8142fd8d06
 def exponential_cooling(games_played):
     # Example of cooling function
     temperature = 1000*(0.999**games_played)
     return temperature
-<<<<<<< HEAD
-=======
-          
->>>>>>> e1a46068e5fc421ca773c7341bfc1e8142fd8d06
-
 
 
 
