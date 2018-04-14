@@ -10,8 +10,10 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
+
 softmax = Softmax(100)
 epsilongreedy = Epsilon_Greedy(0.01)
+
 average = Average()
 idf = Identity_Function()
 
@@ -35,7 +37,7 @@ for decision_problem, exploration_scheme, learning_scheme in test_configs:
         print(agent.total_utility)
         # optimal value: 4/3
 
-        print(agent.get_action_distribution("Intersection")[0])
+        print(agent.get_action_distribution())
         # optimal value: 2/3
         
         print()
