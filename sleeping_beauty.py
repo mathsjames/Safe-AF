@@ -1,6 +1,7 @@
 import numpy as np
 from decision_problem import Decision_Problem
 from agents import *
+from training_data import *
 
 ## WARNING! This decision problem uses a modified version of run, and will have to be patched if the superclass is changed
 
@@ -40,13 +41,14 @@ class Sleeping_Beauty_V1(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def run(self, agent, iterations, learn):
+    def run(self, agent, iterations, learn=False):
         history = []
 
         for i in range(iterations):
 
             self.reset_with(agent)
-            episode = []
+            step_history = []
+            utility = 0
 
             while not self.finished:
 
@@ -55,13 +57,17 @@ class Sleeping_Beauty_V1(Decision_Problem):
                 action = np.random.choice(self.actions, 1, p=action_distribution)[0]
 
                 if self.state == "Heads+Monday":
-                    utility = action_distribution[0]
+                    reward = action_distribution[0]
                 else:
-                    utility = action_distribution[1]
+                    reward = action_distribution[1]
 
                 _,_ = self.do(action)
 
-                episode.append((epistemic_state, action, utility))
+                s = Step(epistemic_state, action, reward)
+                utility += reward
+                step_history.append(s)
+
+            episode = Episode(utility, step_history)
 
             if learn:
                 agent.learn_from([episode])
@@ -69,7 +75,6 @@ class Sleeping_Beauty_V1(Decision_Problem):
             history.append(episode)
 
         return history
-
 
 class Sleeping_Beauty_V2(Decision_Problem):
 
@@ -106,13 +111,14 @@ class Sleeping_Beauty_V2(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def run(self, agent, iterations, learn):
+    def run(self, agent, iterations, learn=False):
         history = []
 
         for i in range(iterations):
 
             self.reset_with(agent)
-            episode = []
+            step_history = []
+            utility = 0
 
             while not self.finished:
 
@@ -121,16 +127,21 @@ class Sleeping_Beauty_V2(Decision_Problem):
                 action = np.random.choice(self.actions, 1, p=action_distribution)[0]
 
                 if self.state == "Heads+Monday":
-                    utility = action_distribution[0]
+                    reward = action_distribution[0]
                 elif self.state == "Tails+Tuesday":
-                    utility = action_distribution[1]
+                    reward = action_distribution[1]
                 else:
-                    #utility = action_distribution[1]/2.0
-                    utility = 0
+                    reward = 0
 
                 _,_ = self.do(action)
 
-                episode.append((epistemic_state, action, utility))
+                s = Step(epistemic_state, action, reward)
+                utility += reward
+                step_history.append(s)
+
+            episode = Episode(utility, step_history)
+
+            if learn:
                 agent.learn_from([episode])
 
             history.append(episode)

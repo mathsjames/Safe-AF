@@ -8,7 +8,7 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from agents import *
 
-repetitions = 5 # for testing stability
+repetitions = 1 # for testing stability
 iterations = 1000
 #epochs = 1000
 #batch_size = 1
@@ -30,8 +30,8 @@ total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Softmax + Total", AMD, softmax, average, ["Intersection"]),
-                ("Epsilon Greedy + Total", AMD, epsilongreedy, average, ["Intersection"]),
+test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 ("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
                 ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
