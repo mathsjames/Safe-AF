@@ -13,7 +13,7 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
-G2EB = General2by2([(1000,0),(1001,1)],lambda dist: dist )
+G2EB = General2by2([(10,0),(11,1)],lambda dist: dist )
 DiD = Death_In_Damascus()
 PDS = Prisoners_Dilemma_against_copy()
 
@@ -33,7 +33,7 @@ test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Softmax", PDS, softmax, average, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                #("PD against self by general2by2", "Softmax + Average", G2EB, softmax, average, ["NewRound"])
+                ("Softmax", G2EB, softmax, average, ["NewRound"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
