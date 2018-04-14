@@ -38,14 +38,14 @@ class Prisoners_Dilemma_against_copy(Decision_Problem):
         self.description = "Prisoner's Dilemma Against Copy"
 
 
-        def reset_with(self, agent):
-            self.finished = False
+    def reset_with(self, agent):
+        self.finished = False
 
-            action_distribution = agent.get_action_distribution("Start")
-            action = np.random.choice(self.actions, 1, p=action_distribution)[0]
+        action_distribution = agent.get_action_distribution("START")
+        action = np.random.choice(self.actions, 1, p=action_distribution)[0]
 
-            if action == "Cooperate":
-                self.state = "copy cooperates"
+        if action == "Cooperate":
+            self.state = "copy cooperates"
 
-            if action == "Defect":
-                self.state = "copy defects"
+        if action == "Defect":
+            self.state = "copy defects"
