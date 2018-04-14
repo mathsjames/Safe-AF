@@ -2,6 +2,7 @@ import numpy as np
 
 from absent_minded_driver import Absent_Minded_Driver
 from evidential_blackmail import Evidential_Blackmail
+from death_in_damascus import Death_In_Damascus
 from agents import *
 
 iterations = 5
@@ -10,6 +11,7 @@ batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
+DiD = Death_In_Damascus()
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)

@@ -29,7 +29,7 @@ class Epsilon_Greedy:
 
 ## Training data preprocessing functions ##
 
-class Identity_Function:
+class Identity_Function: # Should be used for all 1-step games
     def __init__(self):
         pass
     def process(self, history):

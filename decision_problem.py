@@ -44,7 +44,7 @@ class Decision_Problem:
         return history
 
     def run(self, agent, iterations):
-        return runLearn(self, agent, iterations, False)
+        return self.runLearn(agent, iterations, False)
 
     def do(self, action):
 
