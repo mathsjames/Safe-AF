@@ -94,13 +94,11 @@ class Total:
         for episode in history:
             total = 0
             ans_episode = []
-            for i in range(len(episode)):
-                j = len(episode)-i
-                total += episode[j][2]
-                ans_episode = [(episode[0], episode[1], total)] ++ ans_episode
+            for entry in episode[::-1]:
+                total += entry[2]
+                ans_episode = [(entry[0], entry[1], total)] + ans_episode
             ans.append(ans_episode)
         return ans
-
 
 
 ## Agents ##
