@@ -40,7 +40,7 @@ class Sleeping_Beauty_V1(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def runLearn(self, agent, iterations, learn):
+    def run(self, agent, iterations, learn):
         history = []
 
         for i in range(iterations):
@@ -62,7 +62,7 @@ class Sleeping_Beauty_V1(Decision_Problem):
                 _,_ = self.do(action)
 
                 episode.append((epistemic_state, action, utility))
-                
+
             if learn:
                 agent.learn_from([episode])
 
@@ -106,7 +106,7 @@ class Sleeping_Beauty_V2(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def runLearn(self, agent, iterations, learn):
+    def run(self, agent, iterations, learn):
         history = []
 
         for i in range(iterations):
