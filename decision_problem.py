@@ -1,5 +1,6 @@
 import numpy as np
 from training_data import *
+import matplotlib.pyplot as plt
 
 class Decision_Problem:
 
@@ -22,8 +23,10 @@ class Decision_Problem:
         self.state = None
 
     #runs and lets the agent learn after each instance of the problem if input variable learn is True.
-    def run(self, agent, iterations, learn=False):
+    def run(self, agent, iterations, learn=False, interesting_states=[]):
         history = []
+
+        distribution_history = {state:[] for state in interesting_states}
 
         for i in range(iterations):
 
@@ -48,6 +51,14 @@ class Decision_Problem:
                 agent.learn_from([episode])
 
             history.append(episode)
+            for state in interesting_states:
+                #distribution_history[state].append(agent.get_action_distribution(state)[0])
+                distribution_history[state].append(agent.expected_utility[state][agent.actions[1]])
+
+        for state in interesting_states:
+            plt.plot(distribution_history[state])
+            plt.title("EXP of " + agent.actions[0] + " in " + state)
+            plt.show()
 
         return history
 

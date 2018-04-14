@@ -9,7 +9,7 @@ from sleeping_beauty import *
 from agents import *
 
 repetitions = 1 # for testing stability
-iterations = 1000
+iterations = 100
 #epochs = 1000
 #batch_size = 1
 
@@ -32,19 +32,19 @@ idf = Identity_Function()
 
 test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
-                ("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
-                ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
+                #("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
+                #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", SB1, softmax, idf, ["Awake"]),
-                ("Softmax", SB2, softmax, idf, ["Awake"]),
+                #("Softmax", SB1, softmax, idf, ["Awake"]),
+                #("Softmax", SB2, softmax, idf, ["Awake"]),
                 #("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
-                ("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
+                #("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
                 #("Softmax", PDS, softmax, average, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                ("Softmax", G2EB, softmax, average, ["NewRound"]),
-                ("Softmax", G2NPR, softmax, average, ["NewRound"])
+                #("Softmax", G2EB, softmax, average, ["NewRound"]),
+                #("Softmax", G2NPR, softmax, average, ["NewRound"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
@@ -56,7 +56,7 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
-        history = decision_problem.run(agent, iterations, learn=True)
+        history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
 
         #for j in range(epochs):
             #history = decision_problem.run(agent, batch_size, learn=True)

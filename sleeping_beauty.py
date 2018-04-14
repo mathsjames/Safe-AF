@@ -2,8 +2,10 @@ import numpy as np
 from decision_problem import Decision_Problem
 from agents import *
 from training_data import *
+import matplotlib.pyplot as plt
 
-## WARNING! This decision problem uses a modified version of run, and will have to be patched if the superclass is changed
+## WARNING! The implementation is a bit hacky:
+## This decision problem uses a modified version of run, and will have to be patched if the superclass is changed
 
 class Sleeping_Beauty_V1(Decision_Problem):
 
@@ -41,8 +43,9 @@ class Sleeping_Beauty_V1(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def run(self, agent, iterations, learn=False):
+    def run(self, agent, iterations, learn=False, interesting_states=[]):
         history = []
+        distribution_history = {state:[] for state in interesting_states}
 
         for i in range(iterations):
 
@@ -73,6 +76,13 @@ class Sleeping_Beauty_V1(Decision_Problem):
                 agent.learn_from([episode])
 
             history.append(episode)
+            for state in interesting_states:
+                distribution_history[state].append(agent.get_action_distribution(state)[0])
+
+        for state in interesting_states:
+            plt.plot(distribution_history[state])
+            plt.title("Probability of " + agent.actions[0] + " in " + state)
+            plt.show()
 
         return history
 
@@ -111,8 +121,9 @@ class Sleeping_Beauty_V2(Decision_Problem):
         else:
             self.state = "Tails+Monday"
 
-    def run(self, agent, iterations, learn=False):
+    def run(self, agent, iterations, learn=False, interesting_states=[]):
         history = []
+        distribution_history = {state:[] for state in interesting_states}
 
         for i in range(iterations):
 
@@ -145,5 +156,12 @@ class Sleeping_Beauty_V2(Decision_Problem):
                 agent.learn_from([episode])
 
             history.append(episode)
+            for state in interesting_states:
+                distribution_history[state].append(agent.get_action_distribution(state)[0])
+
+        for state in interesting_states:
+            plt.plot(distribution_history[state])
+            plt.title("Probability of " + agent.actions[0] + " in " + state)
+            plt.show()
 
         return history
