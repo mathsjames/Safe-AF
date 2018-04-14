@@ -8,7 +8,7 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from agents import *
 
-repetitions = 1 # for testing stability
+repetitions = 5 # for testing stability
 iterations = 1000
 #epochs = 1000
 #batch_size = 1

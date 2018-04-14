@@ -12,25 +12,6 @@ class Softmax:
         e_x = np.exp(x-np.max(x))
         return e_x / e_x.sum(axis=0)
 
-
-class More_Advanced_Softmax:
-
-    def __init__(self, cooling_function):
-        self.cooling_function = cooling_function
-        #Cooling function should be a function from number of games played to temperature
-
-    def function(self, x, games_played):
-        temperature = self.cooling_function(games_played)
-        x = [i/temperature for i in x]
-        e_x = np.exp(x-np.max(x))
-        return e_x / e_x.sum(axis=0)
-
-
-def exponential_cooling(games_played):
-    # Example of cooling function
-    temperature = 100*(0.99**games_played)
-    return temperature
-
 class Epsilon_Greedy:
 
     def __init__(self, epsilon):
@@ -45,6 +26,23 @@ class Epsilon_Greedy:
             mx = max(x)
             mxs = list(filter(lambda x: x == mx, x))
             return [1.0/len(mxs) if i==mx else 0 for i in x]
+
+class More_Advanced_Softmax:
+
+    def __init__(self, cooling_function):
+        self.cooling_function = cooling_function
+        #Cooling function should be a function from number of games played to temperature
+
+    def function(self, x, games_played):
+        temperature = self.cooling_function(games_played)
+        x = [i/temperature for i in x]
+        e_x = np.exp(x-np.max(x))
+        return e_x / e_x.sum(axis=0)
+
+def exponential_cooling(games_played):
+    # Example of cooling function
+    temperature = 100*(0.99**games_played)
+    return temperature
 
 ## Training data preprocessing functions ##
 
@@ -70,6 +68,23 @@ class Average:
             average_utility = sum([i[2] for i in episode])/len(episode)
             ans.append([(epistemic_state, action, average_utility) for (epistemic_state, action, _) in episode])
         return ans
+
+class Total:
+    def __init__(self):
+        pass
+    def process(self, history):
+        ans = []
+        for episode in history:
+            total = 0
+            ans_episode = []
+            for i in range(len(episode)):
+                j = len(episode)-i
+                total += episode[j][2]
+                ans_episode = [(episode[0], episode[1], total)] ++ ans_episode
+            ans.append(ans_episode)
+        return ans
+
+
 
 ## Agents ##
 
