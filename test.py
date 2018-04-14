@@ -15,7 +15,7 @@ AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
 G2EB = General2by2([(1000,0),(1001,1)],lambda dist: dist )
 DiD = Death_In_Damascus()
-PSD = Prisoners_Dilema_against_copy()
+PDS = Prisoners_Dilemma_against_copy()
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -30,7 +30,7 @@ test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
                 ("Softmax", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])
+                ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 ("Softmax", PDS, softmax, average, ["START"]),
                 ("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 ("PD against self by general2by2", "Softmax + Average", G2EB, softmax, average, ["response1"])]

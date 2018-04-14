@@ -1,7 +1,7 @@
 import numpy as np
 from decision_problem import Decision_Problem
 
-class Prisoners_Dilema_against_copy(Decision_Problem):
+class Prisoners_Dilemma_against_copy(Decision_Problem):
 
     # Agent is playin Prisoners Dilema against a frech copy of it self.
 
@@ -9,9 +9,9 @@ class Prisoners_Dilema_against_copy(Decision_Problem):
 
     def __init__(self):
 
-        self.actions["Cooperate", "Defect"]
+        self.actions = ["Cooperate", "Defect"]
 
-        self.states["copy cooperates", "copy defects",
+        self.states = ["copy cooperates", "copy defects",
                     "cooperate+copy cooperates", "cooperate+copy defects", "defect+copy coperates", "defect+copy defects"]
 
         self.end_states = ["cooperate+copy cooperates", "cooperate+copy defects", "defect+copy coperates", "defect+copy defects"]
