@@ -14,6 +14,8 @@ class Decision_Problem:
 
         self.utility_dict = {}
 
+        self.description("")
+
     def reset_with(self, agent):
         self.finished = False
         self.state = None

@@ -33,6 +33,9 @@ for dp_name, agent_description, decision_problem, exploration_scheme, learning_s
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
+
+
+
         for j in range(epochs):
             history = decision_problem.run(agent, batch_size)
             agent.learn_from(history)
@@ -41,7 +44,7 @@ for dp_name, agent_description, decision_problem, exploration_scheme, learning_s
 
         for state in interesting_states:
             print(state + ":")
-            print(agent.get_action_distribution(state))
+            #print(agent.get_action_distribution(state))
 
         print()
 
