@@ -31,7 +31,10 @@ def exponential_cooling(games_played):
     temperature = 100*(0.99**games_played)
     return temperature
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> e734314233ce21c1345f5054e8b400bb887d1085
 class Epsilon_Greedy:
 
     def __init__(self, epsilon):

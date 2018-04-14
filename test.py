@@ -8,9 +8,10 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from agents import *
 
-iterations = 1
-epochs = 1000
-batch_size = 1
+repetitions = 1 # for testing stability
+iterations = 1000
+#epochs = 1000
+#batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
@@ -34,8 +35,8 @@ test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", SB1, softmax, average, ["Awake"]),
-                ("Softmax", SB2, softmax, average, ["Awake"]),
+                ("Softmax", SB1, softmax, idf, ["Awake"]),
+                ("Softmax", SB2, softmax, idf, ["Awake"]),
                 #("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 ("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
@@ -50,12 +51,14 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
     print(decision_problem.description)
     print(agent_description)
 
-    for i in range(iterations):
+    for i in range(repetitions):
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
-        for j in range(epochs):
-            history = decision_problem.run(agent, batch_size, learn=True)
+        history = decision_problem.run(agent, iterations, learn=True)
+
+        #for j in range(epochs):
+            #history = decision_problem.run(agent, batch_size, learn=True)
             #agent.learn_from(history)
 
         print("Average utility: " + str(agent.total_utility/agent.games_played))
