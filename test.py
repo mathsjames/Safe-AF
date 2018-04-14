@@ -8,7 +8,7 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from agents import *
 
 iterations = 1
-epochs = 100000
+epochs = 1000
 batch_size = 1
 
 AMD = Absent_Minded_Driver()
@@ -29,11 +29,12 @@ test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
-                ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
-                ("Softmax", PDS, softmax, average, ["START"]),
-                ("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                ("PD against self by general2by2", "Softmax + Average", G2EB, softmax, average, ["NewRound"])]
+                #("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                #("Softmax", PDS, softmax, average, ["START"]),
+                #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
+                #("PD against self by general2by2", "Softmax + Average", G2EB, softmax, average, ["NewRound"])
+]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
