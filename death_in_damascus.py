@@ -51,7 +51,7 @@ decision_problem = Death_In_Damascus()
 exploration_scheme = Softmax(0.5)
 learning_scheme = Average()
 agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
-history=decision_problem.runLearn(agent,100000, True)
+history=decision_problem.run(agent,100000, True)
 print(history)
 print(agent.get_action_distribution("Death states he will come for you tomorrow"))
 '''
