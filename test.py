@@ -46,7 +46,10 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
 
         for state in interesting_states:
             print(state + ":")
-            #print(agent.get_action_distribution(state))
+            for i in range(len(agent.actions)):
+                a = agent.actions[i]
+                p = agent.get_action_distribution(state)[i]
+                print(a + ": " +  str(p))
 
         print()
 
