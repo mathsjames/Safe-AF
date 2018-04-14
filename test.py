@@ -17,8 +17,8 @@ epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("absent-minded", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
-                ("absent-minded", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
 
