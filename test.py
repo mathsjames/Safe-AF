@@ -17,29 +17,29 @@ epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("absent-minded", AMD, softmax, average, ["Intersection"]),
-                ("absent-minded", AMD, epsilongreedy, average, ["Intersection"]),
-                ("blackmail", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("blackmail", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+test_configs = [("absent-minded", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("absent-minded", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+                ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
 
-for dp_name, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+
+    print(dp_name)
+    print(agent_description)
 
     for i in range(iterations):
-        
-        print(dp_name)
-        
-        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
-        total_utility = 0
+        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
         for j in range(epochs):
             history = decision_problem.run(agent, batch_size)
             agent.learn_from(history)
 
-        print(agent.total_utility)
+        print("Average utility: " + str(agent.total_utility/agent.games_played))
 
         for state in interesting_states:
-            print(agent.get_action_distribution(state)[0])
+            print(state + ":")
+            print(agent.get_action_distribution(state))
 
         print()
 

@@ -69,6 +69,7 @@ class Simple_Agent:
         self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
+        self.games_played = 0
 
     def get_action_distribution(self, epistemic_state):
 
@@ -81,6 +82,8 @@ class Simple_Agent:
         training_data = self.learning_scheme.process(training_data)
 
         for episode in training_data:
+
+            self.games_played += 1
 
             for epistemic_state, action, utility in episode:
 
