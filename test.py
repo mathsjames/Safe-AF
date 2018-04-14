@@ -17,27 +17,30 @@ epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
 idf = Identity_Function()
 
-test_configs = [(AMD, softmax, average),
-                (AMD, epsilongreedy, average),
-                (EB, softmax, idf),
-                (EB, epsilongreedy, idf)]
-    
-for decision_problem, exploration_scheme, learning_scheme in test_configs:
+test_configs = [("absent-minded", AMD, softmax, average, ["Intersection"]),
+                ("absent-minded", AMD, epsilongreedy, average, ["Intersection"]),
+                ("blackmail", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("blackmail", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+
+for dp_name, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
     for i in range(iterations):
         
+        print(dp_name)
+        
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
-        
+
         total_utility = 0
-        
+
         for j in range(epochs):
             history = decision_problem.run(agent, batch_size)
             agent.learn_from(history)
 
         print(agent.total_utility)
-        # optimal value: 4/3
 
-        print(agent.get_action_distribution())
-        # optimal value: 2/3
-        
+        for state in interesting_states:
+            print(agent.get_action_distribution(state)[0])
+
         print()
+
+    print("###")
