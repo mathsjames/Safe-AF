@@ -1,4 +1,5 @@
 import numpy as np
+from training_data import *
 
 class Decision_Problem:
 
@@ -27,16 +28,21 @@ class Decision_Problem:
         for i in range(iterations):
 
             self.reset_with(agent)
-            episode = []
+            step_history = []
+            utility = 0
 
             while not self.finished:
 
                 epistemic_state = self.epistemic_state()
                 action_distribution = agent.get_action_distribution(epistemic_state)
                 action = np.random.choice(self.actions, 1, p=action_distribution)[0]
-                _, utility = self.do(action)
+                _, reward = self.do(action)
 
-                episode.append((epistemic_state, action, utility))
+                s = Step(epistemic_state, action, reward)
+                utility += reward
+                step_history.append(s)
+
+            episode = Episode(utility, step_history)
 
             if learn:
                 agent.learn_from([episode])

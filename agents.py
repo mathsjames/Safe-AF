@@ -2,16 +2,6 @@ import numpy as np
 
 ## Exploration Schemes ##
 
-class Softmax:
-
-    def __init__(self, temperature):
-        self.temperature = float(temperature)
-
-    def function(self, x):
-        x = [i/self.temperature for i in x]
-        e_x = np.exp(x-np.max(x))
-        return e_x / e_x.sum(axis=0)
-
 class Epsilon_Greedy:
 
     def __init__(self, epsilon):
@@ -26,6 +16,16 @@ class Epsilon_Greedy:
             mx = max(x)
             mxs = list(filter(lambda x: x == mx, x))
             return [1.0/len(mxs) if i==mx else 0 for i in x]
+
+class Softmax:
+
+    def __init__(self, temperature):
+        self.temperature = float(temperature)
+
+    def function(self, x):
+        x = [i/self.temperature for i in x]
+        e_x = np.exp(x-np.max(x))
+        return e_x / e_x.sum(axis=0)
 
 class More_Advanced_Softmax:
 
@@ -43,22 +43,6 @@ def exponential_cooling(games_played):
     # Example of cooling function
     temperature = 100*(0.99**games_played)
     return temperature
-
-
-class Epsilon_Greedy:
-
-    def __init__(self, epsilon):
-        self.epsilon = float(epsilon)
-
-    def function(self, x):
-        exploring = np.random.choice([True, False], 1, p=[self.epsilon, 1-self.epsilon])[0]
-
-        if exploring:
-            return [1.0/len(x) for i in x]
-        else:
-            mx = max(x)
-            mxs = list(filter(lambda x: x == mx, x))
-            return [1.0/len(mxs) if i==mx else 0 for i in x]
 
 
 ## Training data preprocessing functions ##
@@ -82,8 +66,11 @@ class Average:
     def process(self, history):
         ans = []
         for episode in history:
-            average_utility = sum([i[2] for i in episode])/len(episode)
-            ans.append([(epistemic_state, action, average_utility) for (epistemic_state, action, _) in episode])
+            average_reward = sum([i.reward for i in episode.steps])/len(episode.steps)
+            e = episode.copy()
+            for step in e.steps:
+                step.reward = average_reward
+            ans.append(e)
         return ans
 
 class Total:
@@ -93,13 +80,12 @@ class Total:
         ans = []
         for episode in history:
             total = 0
-            ans_episode = []
-            for entry in episode[::-1]:
-                total += entry[2]
-                ans_episode = [(entry[0], entry[1], total)] + ans_episode
-            ans.append(ans_episode)
+            e = episode.copy()
+            for step in e.steps[::-1]:
+                total += step.reward
+                step.reward = total
+            ans.append(e)
         return ans
-
 
 ## Agents ##
 
@@ -118,7 +104,7 @@ class Simple_Agent:
         self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
-        self.games_played = 0
+        self.games_played = 1
 
     def get_action_distribution(self, epistemic_state):
 
@@ -133,14 +119,17 @@ class Simple_Agent:
         for episode in training_data:
 
             self.games_played += 1
+            self.total_utility += episode.utility
 
-            for epistemic_state, action, utility in episode:
+            for step in episode.steps:
 
-                self.total_utility += utility
+                epistemic_state = step.epistemic_state
+                action = step.action
+                reward = step.reward
 
                 i = self.times_action_taken[epistemic_state][action]
                 exp = self.expected_utility[epistemic_state][action]
-                self.expected_utility[epistemic_state][action] = (utility+exp*i)/(i+1.0)
+                self.expected_utility[epistemic_state][action] = (reward+exp*i)/(i+1.0)
                 self.times_action_taken[epistemic_state][action] += 1
 
 class More_Advanced_Agent(Simple_Agent):
