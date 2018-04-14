@@ -17,9 +17,9 @@ class Decision_Problem:
     def reset_with(self, agent):
         self.finished = False
         self.state = None
-        
-    def run(self, agent, iterations):
-        
+    
+    #runs and lets the agent learn after each instance of the problem if input variable learn is True.
+    def runLearn(self, agent, iterations, learn):
         history = []
         
         for i in range(iterations):          
@@ -31,14 +31,20 @@ class Decision_Problem:
                 
                 epistemic_state = self.epistemic_state()
                 action_distribution = agent.get_action_distribution(epistemic_state)
+                print(action_distribution)
                 action = np.random.choice(self.actions, 1, p=action_distribution)[0]
                 _, utility = self.do(action)
                 
                 episode.append((epistemic_state, action, utility))
+                agent.learn_from([episode])
                 
             history.append(episode)
             
         return history
+    
+    def run(self, agent, iterations):
+        return run(self, agent, iterations, False)
+        
             
     def do(self, action):
         
