@@ -54,7 +54,7 @@ class Evidential_Blackmail(Decision_Problem):
             if action == "PAY":
                 self.state = "crash+no blackmail"
             else:
-                self.state = "no crash+blackmail"
+                self.state = "crash+blackmail"
 
         else:
             action_distribution = agent.get_action_distribution("Blackmail")
