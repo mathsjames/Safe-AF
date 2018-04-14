@@ -2,14 +2,20 @@ import numpy as np
 
 from absent_minded_driver import Absent_Minded_Driver
 from evidential_blackmail import Evidential_Blackmail
+from general2by2game import General2by2
+from death_in_damascus import Death_In_Damascus
+from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from agents import *
 
-iterations = 5
-epochs = 100000
+iterations = 1
+epochs = 1000
 batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
+G2EB = General2by2([(10,0),(11,1)],lambda dist: dist )
+DiD = Death_In_Damascus()
+PDS = Prisoners_Dilemma_against_copy()
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -17,14 +23,22 @@ epsilongreedy = Epsilon_Greedy(0.01)
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Absent-Minded Driver", "Softmax + Average", AMD, softmax, average, ["Intersection"]),
-                ("Absent-Minded Driver", "Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
-                ("blackmail", "Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("blackmail", "Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"])]
+test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
+                ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
+                ("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
+                ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
+                ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                #("Softmax", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                #("Softmax", PDS, softmax, average, ["START"]),
+                #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
+                ("Softmax", G2EB, softmax, average, ["NewRound"])
+]
 
-for dp_name, agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
-    print(dp_name)
+    print(decision_problem.description)
     print(agent_description)
 
     for i in range(iterations):
@@ -39,7 +53,10 @@ for dp_name, agent_description, decision_problem, exploration_scheme, learning_s
 
         for state in interesting_states:
             print(state + ":")
-            print(agent.get_action_distribution(state))
+            for i in range(len(agent.actions)):
+                a = agent.actions[i]
+                p = agent.get_action_distribution(state)[i]
+                print(a + ": " + str(p))
 
         print()
 
