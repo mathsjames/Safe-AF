@@ -47,7 +47,13 @@ class Evidential_Blackmail(Decision_Problem):
         crash = np.random.choice([True, False], 1, p=[0.5, 0.5])[0]
         
         if crash:
-            self.state = "crash+no blackmail"
+            action_distribution = agent.get_action_distribution("Blackmail")
+            action = np.random.choice(self.actions, 1, p=action_distribution)[0]
+            
+            if action == "PAY":
+                self.state = "crash+no blackmail"
+            else:
+                self.state = "no crash+blackmail"
             
         else:
             action_distribution = agent.get_action_distribution("Blackmail")
