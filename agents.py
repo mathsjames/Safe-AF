@@ -24,11 +24,10 @@ class More_Advanced_Softmax:
         x = [i/temperature for i in x]
         e_x = np.exp(x-np.max(x))
         return e_x / e_x.sum(axis=0)
-        
-        
+
+
 class More_Advanced_Softma_2x:
 
-<<<<<<< HEAD
     def __init__(self, cooling_function):
         self.cooling_function = cooling_function
         #Cooling function should be a function from number of games played to temperature
@@ -39,20 +38,10 @@ class More_Advanced_Softma_2x:
         e_x = np.exp(x-np.min(x))
         return e_x / e_x.sum(axis=0)
 
-
-=======
->>>>>>> ae85b580a3514796245aceba7e7018e3c6d2dd63
 def exponential_cooling(games_played):
     # Example of cooling function
     temperature = 1000*(0.999**games_played)
     return temperature
-<<<<<<< HEAD
-
-
-
-=======
->>>>>>> ae85b580a3514796245aceba7e7018e3c6d2dd63
-
 
 class Epsilon_Greedy:
 

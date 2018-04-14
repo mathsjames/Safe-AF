@@ -59,6 +59,7 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
             agent.learn_from(history)
 
         print("Average utility: " + str(agent.total_utility/agent.games_played))
+        #print(agent.games_played)
 
         for state in interesting_states:
             print(state + ":")

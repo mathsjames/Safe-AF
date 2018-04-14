@@ -62,6 +62,8 @@ class Sleeping_Beauty_V1(Decision_Problem):
                 _,_ = self.do(action)
 
                 episode.append((epistemic_state, action, utility))
+                
+            if learn:
                 agent.learn_from([episode])
 
             history.append(episode)

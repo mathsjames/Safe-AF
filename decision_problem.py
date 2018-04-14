@@ -37,6 +37,8 @@ class Decision_Problem:
                 _, utility = self.do(action)
 
                 episode.append((epistemic_state, action, utility))
+
+            if learn:
                 agent.learn_from([episode])
 
             history.append(episode)
@@ -44,7 +46,7 @@ class Decision_Problem:
         return history
 
     def run(self, agent, iterations):
-        return self.runLearn(agent, iterations, False)
+        return self.runLearn(agent, iterations, learn=False)
 
     def do(self, action):
 
