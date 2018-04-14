@@ -10,20 +10,20 @@ class Sleeping_Beauty_V1(Decision_Problem):
     def __init__(self):
         self.actions = ["GUESS HEADS", "GUESS TAILS"]
 
-        self.states = ["Heads+Monday", "Tails+Monday", "Tails+Tuesday"]
+        self.states = ["Heads+Monday", "T+Monday", "Tails+Tuesday"]
 
         self.end_states = ["Heads+Monday", "Tails+Tuesday"]
 
         self.epistemic_states = ["Awake"]
 
         self.state_to_epistemic_state_dict = {"Heads+Monday":"Awake",
-                                              "Tails+Monday":"Awake",
+                                              "T+Monday":"Awake",
                                               "Tails+Tuesday":"Awake",
                                               "END":"END"
                                              }
 
-        self.causation_dict = {("Tails+Monday", "GUESS HEADS"):"Tails+Tuesday",
-                               ("Tails+Monday", "GUESS TAILS"):"Tails+Tuesday",
+        self.causation_dict = {("T+Monday", "GUESS HEADS"):"Tails+Tuesday",
+                               ("T+Monday", "GUESS TAILS"):"Tails+Tuesday",
                               }
 
         self.utility_dict = {} # This decision problem uses a modified run function instead
@@ -36,7 +36,7 @@ class Sleeping_Beauty_V1(Decision_Problem):
         if HEADS:
             self.state = "Heads+Monday"
         else:
-            self.state = "Tails+Monday"
+            self.state = "T+Monday"
 
     def runLearn(self, agent, iterations, learn):
         history = []
@@ -74,20 +74,20 @@ class Sleeping_Beauty_V2(Decision_Problem):
     def __init__(self):
         self.actions = ["GUESS HEADS", "GUESS TAILS"]
 
-        self.states = ["Heads+Monday", "Tails+Monday", "Tails+Tuesday"]
+        self.states = ["Heads+Monday", "T+Monday", "Tails+Tuesday"]
 
         self.end_states = ["Heads+Monday", "Tails+Tuesday"]
 
         self.epistemic_states = ["Awake"]
 
         self.state_to_epistemic_state_dict = {"Heads+Monday":"Awake",
-                                              "Tails+Monday":"Awake",
+                                              "T+Monday":"Awake",
                                               "Tails+Tuesday":"Awake",
                                               "END":"END"
                                              }
 
-        self.causation_dict = {("Tails+Monday", "GUESS HEADS"):"Tails+Tuesday",
-                               ("Tails+Monday", "GUESS TAILS"):"Tails+Tuesday",
+        self.causation_dict = {("T+Monday", "GUESS HEADS"):"Tails+Tuesday",
+                               ("T+Monday", "GUESS TAILS"):"Tails+Tuesday",
                               }
 
         self.utility_dict = {} # This decision problem uses a modified run function instead
@@ -100,7 +100,7 @@ class Sleeping_Beauty_V2(Decision_Problem):
         if HEADS:
             self.state = "Heads+Monday"
         else:
-            self.state = "Tails+Monday"
+            self.state = "T+Monday"
 
     def runLearn(self, agent, iterations, learn):
         history = []
