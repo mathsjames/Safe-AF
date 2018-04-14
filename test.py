@@ -55,8 +55,8 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
         for j in range(epochs):
-            history = decision_problem.run(agent, batch_size)
-            agent.learn_from(history)
+            history = decision_problem.run(agent, batch_size, learn=True)
+            #agent.learn_from(history)
 
         print("Average utility: " + str(agent.total_utility/agent.games_played))
         #print(agent.games_played)

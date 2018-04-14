@@ -21,7 +21,7 @@ class Decision_Problem:
         self.state = None
 
     #runs and lets the agent learn after each instance of the problem if input variable learn is True.
-    def runLearn(self, agent, iterations, learn):
+    def run(self, agent, iterations, learn=False):
         history = []
 
         for i in range(iterations):
@@ -44,9 +44,6 @@ class Decision_Problem:
             history.append(episode)
 
         return history
-
-    def run(self, agent, iterations):
-        return self.runLearn(agent, iterations, learn=False)
 
     def do(self, action):
 
