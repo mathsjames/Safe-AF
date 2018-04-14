@@ -27,10 +27,11 @@ softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
 
 total = Total()
+average = Average()
 idf = Identity_Function()
 
-test_configs = [("Softmax + Total", AMD, softmax, total, ["Intersection"]),
-                ("Epsilon Greedy + Total", AMD, epsilongreedy, total, ["Intersection"]),
+test_configs = [("Softmax + Total", AMD, softmax, average, ["Intersection"]),
+                ("Epsilon Greedy + Total", AMD, epsilongreedy, average, ["Intersection"]),
                 ("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
                 ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
@@ -42,8 +43,8 @@ test_configs = [("Softmax + Total", AMD, softmax, total, ["Intersection"]),
                 ("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
                 #("Softmax", PDS, softmax, average, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                ("Softmax", G2EB, softmax, total, ["NewRound"]),
-                ("Softmax", G2NPR, softmax, total, ["NewRound"])
+                ("Softmax", G2EB, softmax, average, ["NewRound"]),
+                ("Softmax", G2NPR, softmax, average, ["NewRound"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
