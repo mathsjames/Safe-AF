@@ -26,6 +26,12 @@ class More_Advanced_Softmax:
         return e_x / e_x.sum(axis=0)        
         
         
+def exponential_cooling(games_played):
+    # Example of cooling function
+    temperature = 1000*(0.999**games_played)     
+    return temperature
+          
+          
 
 class Epsilon_Greedy:
 
