@@ -125,6 +125,7 @@ class Sleeping_Beauty_V2(Decision_Problem):
                 elif self.state == "Tails+Tuesday":
                     utility = action_distribution[1]
                 else:
+                    #utility = action_distribution[1]/2.0
                     utility = 0
 
                 _,_ = self.do(action)
