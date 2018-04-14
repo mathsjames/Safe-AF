@@ -1,7 +1,7 @@
 import numpy as np
 from decision_problem import Decision_Problem
 
-class Prisoners_Dilema_agians_coppy(Decision_Problem):
+class Prisoners_Dilema_against_copy(Decision_Problem):
 
     # Agent is playin Prisoners Dilema against a frech copy of it self.
 

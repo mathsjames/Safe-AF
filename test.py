@@ -3,15 +3,17 @@ import numpy as np
 from absent_minded_driver import Absent_Minded_Driver
 from evidential_blackmail import Evidential_Blackmail
 from death_in_damascus import Death_In_Damascus
+from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from agents import *
 
-iterations = 5
+iterations = 1
 epochs = 100000
 batch_size = 1
 
 AMD = Absent_Minded_Driver()
 EB = Evidential_Blackmail()
 DiD = Death_In_Damascus()
+PSD = Prisoners_Dilema_against_copy()
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -21,10 +23,14 @@ idf = Identity_Function()
 
 test_configs = [("Softmax + Average", AMD, softmax, average, ["Intersection"]),
                 ("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
-                ("Softmax + ID", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                ("Epsilon Greedy + ID", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax + ID", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Epsilon Greedy + ID", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])]
+                ("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
+                ("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
+                ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                ("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("Softmax", DiD, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                ("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"])
+                ("Softmax", PDS, softmax, average, ["START"]),
+                ("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
@@ -46,7 +52,7 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
             for i in range(len(agent.actions)):
                 a = agent.actions[i]
                 p = agent.get_action_distribution(state)[i]
-                print(a + ": " +  str(p))
+                print(a + ": " + str(p))
 
         print()
 
