@@ -35,7 +35,6 @@ class Conitzer(Decision_Problem):
             elif len(state[1]) == 0:
                 self.state_to_epistemic_state_dict[state]="START"
             else:
-                print(state)
                 self.state_to_epistemic_state_dict[state]=state[0][len(state[1])-1]
 
         self.causation_dict = {}
@@ -74,7 +73,7 @@ class Conitzer(Decision_Problem):
         self.state = ((coin1,coin2),())
 
 
-
+'''
 decision_problem = Conitzer()
 exploration_scheme = Softmax(0.1)
 learning_scheme = Average()
@@ -85,3 +84,4 @@ print(agent.get_action_distribution("White"))
 print(agent.get_action_distribution("Black"))
 print(agent.get_action_distribution("Grey"))
 print(agent.get_action_distribution("START"))
+'''

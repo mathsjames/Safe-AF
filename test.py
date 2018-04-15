@@ -6,6 +6,7 @@ from general2by2game import General2by2
 from death_in_damascus import Death_In_Damascus
 from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
+from conitzer import Conitzer
 from agents import *
 import matplotlib.pyplot as plt
 
@@ -23,6 +24,7 @@ G2NPR = General2by2(lambda dist: [(dist[0]*10,dist[0]*10),(dist[0]*10+1,dist[0]*
 PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
+Conitzer = Conitzer()
 
 softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -48,6 +50,8 @@ test_configs = [#("Softmax + Total", AMD, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, softmax, average, ["NewRound"])
+                ("Softmax", Conitzer, softmax, average, ["White", "Black", "Grey", "START"]),
+                ("Epsilon Greedy", Conitzer, epsilongreedy, average, ["White", "Black", "Grey", "START"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
@@ -75,7 +79,7 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
             for i in range(len(agent.actions)):
                 a = agent.actions[i]
                 p = agent.get_action_distribution(state)[i]
-                print(a + ": " + str(p))
+                print(str(a) + ": " + str(p))
 
                 #for state in interesting_states:
 
@@ -84,7 +88,8 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
     for state in interesting_states:
         for distribution_history in distribution_histories:
             plt.plot(distribution_history[state])
-        plt.title("Probability of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
+
+        plt.title("Probability of " + str(agent.actions[0]) + " when " + state + " in " + decision_problem.description)
         plt.show(decision_problem.description + state + " action distributions")
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " action distributions.png")
 
