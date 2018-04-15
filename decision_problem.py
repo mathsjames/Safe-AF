@@ -27,6 +27,7 @@ class Decision_Problem:
         history = []
 
         distribution_history = {state:[] for state in interesting_states}
+        EXP_history = {state:{0:[], 1:[]} for state in interesting_states}
 
         for i in range(iterations):
 
@@ -53,14 +54,15 @@ class Decision_Problem:
             history.append(episode)
             for state in interesting_states:
                 distribution_history[state].append(agent.get_action_distribution(state)[0])
-                #distribution_history[state].append(agent.expected_utility[state][agent.actions[1]])
+                EXP_history[state][0].append(agent.expected_utility[state][agent.actions[1]])
+                EXP_history[state][1].append(agent.expected_utility[state][agent.actions[1]])
 
         #for state in interesting_states:
             #plt.plot(distribution_history[state])
             #plt.title("Probability of " + agent.actions[0] + " in " + state)
             #plt.show()
 
-        return history, distribution_history
+        return history, distribution_history, EXP_history
 
     def do(self, action):
 
