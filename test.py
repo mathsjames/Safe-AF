@@ -28,7 +28,7 @@ Conitzer = Conitzer()
 
 softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
-xpcooling = exp_cooling()
+xpcooling = exponential_cooling()
 Asoftmax = More_Advanced_Softmax(xpcooling)
 
 total = Total()

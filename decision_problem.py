@@ -54,7 +54,7 @@ class Decision_Problem:
             history.append(episode)
             for state in interesting_states:
                 distribution_history[state].append(agent.get_action_distribution(state)[0])
-                EXP_history[state][0].append(agent.expected_utility[state][agent.actions[1]])
+                EXP_history[state][0].append(agent.expected_utility[state][agent.actions[0]])
                 EXP_history[state][1].append(agent.expected_utility[state][agent.actions[1]])
 
         #for state in interesting_states:
