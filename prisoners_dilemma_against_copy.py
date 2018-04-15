@@ -32,8 +32,8 @@ class Prisoners_Dilemma_against_copy(Decision_Problem):
 
         self.utility_dict = {"cooperate+copy cooperates":10,
                              "cooperate+copy defects":0,
-                             "defect+copy coperates":11,
-                             "defect+copy defects":1}
+                             "defect+copy coperates":15,
+                             "defect+copy defects":5}
 
         self.description = "Prisoner's Dilemma Against Copy"
 

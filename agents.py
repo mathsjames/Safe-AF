@@ -39,15 +39,22 @@ class More_Advanced_Softmax:
         e_x = np.exp(x-np.max(x))
         return e_x / e_x.sum(axis=0)
 
-def exponential_cooling(games_played):
-    # Example of cooling function
-    temperature = 100*(0.99**games_played)
-    return temperature
+#def exponential_cooling(games_played):
+#    # Example of cooling function
+#    if  100*(0.99**games_played) > 0.00001:
+#        temperature = 100*(0.99**games_played)
+#    else:
+#        temperature = 0.00001
+#    return temperature
 
-class exp_cooling:
+class exponential_cooling:
     def function(self, games_played):
         # Example of cooling function
-        temperature = 100*(0.99**games_played)
+        if  100*(0.99**games_played) > 0.00001:
+            temperature = 100*(0.99**games_played)
+        else:
+            temperature = 0.00001
+        #print(temperature)
         return temperature
 
 ## Training data preprocessing functions ##

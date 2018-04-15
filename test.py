@@ -9,7 +9,7 @@ from sleeping_beauty import *
 from agents import *
 import matplotlib.pyplot as plt
 
-repetitions = 20 # for testing stability
+repetitions = 10 # for testing stability
 iterations = 100000
 #epochs = 1000
 #batch_size = 1
@@ -37,14 +37,14 @@ test_configs = [#("Softmax + Total", AMD, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 #("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
                 #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
-                ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
+                #("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
                 #("Softmax", SB1, softmax, idf, ["Awake"]),
                 #("Softmax", SB2, softmax, idf, ["Awake"]),
                 #("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
-                #("Softmax", PDS, softmax, idf, ["START"]),
+                ("Softmax", PDS, softmax, idf, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, softmax, average, ["NewRound"])
@@ -88,16 +88,16 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
         plt.show(decision_problem.description + state + " action distributions")
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " action distributions.png")
 
-        #for distribution_history in distribution_histories:
-            #plt.plot(distribution_history[state])
-        #plt.title("EXP of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
-        #plt.show(decision_problem.description + state + " EXP of " + agent.actions[0])
+        for distribution_history in distribution_histories:
+            plt.plot(EXP_history[state][0])
+        plt.title("EXP of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
+        plt.show(decision_problem.description + state + " EXP of " + agent.actions[0])
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " EXP of " + agent.actions[0] + ".png")
 
-        #for distribution_history in distribution_histories:
-            #plt.plot(distribution_history[state])
-        #plt.title("EXP of " + agent.actions[1] + " when " + state + " in " + decision_problem.description)
-        #plt.show(decision_problem.description + state + " EXP of " + agent.actions[1])
+        for distribution_history in distribution_histories:
+            plt.plot(EXP_history[state][1])
+        plt.title("EXP of " + agent.actions[1] + " when " + state + " in " + decision_problem.description)
+        plt.show(decision_problem.description + state + " EXP of " + agent.actions[1])
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+ decision_problem.description + state + " EXP of " + agent.actions[1] + ".png")
 
     print("###")
