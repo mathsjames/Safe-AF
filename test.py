@@ -9,8 +9,8 @@ from sleeping_beauty import *
 from agents import *
 import matplotlib.pyplot as plt
 
-repetitions = 10 # for testing stability
-iterations = 1000
+repetitions = 20 # for testing stability
+iterations = 100000
 #epochs = 1000
 #batch_size = 1
 
@@ -24,25 +24,27 @@ PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
 
-softmax = Softmax(0.1)
+softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
+xpcooling = exp_cooling()
+Asoftmax = More_Advanced_Softmax(xpcooling)
 
 total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Softmax + Average", AMD, softmax, total, ["Intersection"]),
+test_configs = [#("Softmax + Total", AMD, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
                 #("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
                 #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                #("Softmax", SB1, softmax, idf, ["Awake"]),joar.
+                #("Softmax", SB1, softmax, idf, ["Awake"]),
                 #("Softmax", SB2, softmax, idf, ["Awake"]),
-                ("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
+                #("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
-                ("Softmax", PDS, softmax, average, ["START"]),
+                #("Softmax", PDS, softmax, idf, ["START"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, softmax, average, ["NewRound"])
@@ -59,7 +61,7 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
 
-        history, distribution_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
+        history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
         distribution_histories.append(distribution_history)
         #for j in range(epochs):
             #history = decision_problem.run(agent, batch_size, learn=True)
@@ -82,7 +84,20 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
     for state in interesting_states:
         for distribution_history in distribution_histories:
             plt.plot(distribution_history[state])
-        plt.title("Probability of " + agent.actions[0] + " in " + state)
-        plt.show()
+        plt.title("Probability of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
+        plt.show(decision_problem.description + state + " action distributions")
+        #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " action distributions.png")
+
+        #for distribution_history in distribution_histories:
+            #plt.plot(distribution_history[state])
+        #plt.title("EXP of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
+        #plt.show(decision_problem.description + state + " EXP of " + agent.actions[0])
+        #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " EXP of " + agent.actions[0] + ".png")
+
+        #for distribution_history in distribution_histories:
+            #plt.plot(distribution_history[state])
+        #plt.title("EXP of " + agent.actions[1] + " when " + state + " in " + decision_problem.description)
+        #plt.show(decision_problem.description + state + " EXP of " + agent.actions[1])
+        #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+ decision_problem.description + state + " EXP of " + agent.actions[1] + ".png")
 
     print("###")

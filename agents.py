@@ -34,7 +34,7 @@ class More_Advanced_Softmax:
         #Cooling function should be a function from number of games played to temperature
 
     def function(self, x, games_played):
-        temperature = self.cooling_function(games_played)
+        temperature = self.cooling_function.function(games_played)
         x = [i/temperature for i in x]
         e_x = np.exp(x-np.max(x))
         return e_x / e_x.sum(axis=0)
@@ -44,6 +44,11 @@ def exponential_cooling(games_played):
     temperature = 100*(0.99**games_played)
     return temperature
 
+class exp_cooling:
+    def function(self, games_played):
+        # Example of cooling function
+        temperature = 100*(0.99**games_played)
+        return temperature
 
 ## Training data preprocessing functions ##
 
