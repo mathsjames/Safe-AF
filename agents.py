@@ -153,6 +153,23 @@ class More_Advanced_Agent(Simple_Agent):
         
 class Forgettfull_Agent(Simple_Agent):
 
+    def __init__(self, exploration_scheme, learning_scheme, decision_problem, memory_time_discounting):
+
+        self.actions = decision_problem.actions
+        self.epistemic_states = decision_problem.epistemic_states
+
+        self.exploration = exploration_scheme
+        self.learning_scheme = learning_scheme
+
+        temp = {action:15 for action in self.actions}
+        self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
+        self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
+
+        self.total_utility = 0
+        self.games_played = 1
+        
+        self.memory_time_discounting = memory_time_discounting
+
     def learn_from(self, training_data):
 
         training_data = self.learning_scheme.process(training_data)
@@ -170,7 +187,7 @@ class Forgettfull_Agent(Simple_Agent):
 
                 i = self.times_action_taken[epistemic_state][action]
                 exp = self.expected_utility[epistemic_state][action]
-                self.expected_utility[epistemic_state][action] = 0.1*reward + 0.9*exp
+                self.expected_utility[epistemic_state][action] = (1-self.memory_time_discounting)*reward + self.memory_time_discounting*exp
                 self.times_action_taken[epistemic_state][action] += 1
 
 
