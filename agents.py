@@ -111,9 +111,10 @@ class Simple_Agent:
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-        temp = {action:15 for action in self.actions}
-        self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
-        self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
+        temp1 = {action:15 for action in self.actions}
+        temp2 = {action:1 for action in self.actions}
+        self.expected_utility = {es:temp1.copy() for es in self.epistemic_states}
+        self.times_action_taken = {es:temp2.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
         self.games_played = 1
@@ -161,9 +162,10 @@ class Forgettfull_Agent(Simple_Agent):
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-        temp = {action:15 for action in self.actions}
-        self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
-        self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
+        temp1 = {action:15 for action in self.actions}
+        temp2 = {action:1 for action in self.actions}
+        self.expected_utility = {es:temp1.copy() for es in self.epistemic_states}
+        self.times_action_taken = {es:temp2.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
         self.games_played = 1
@@ -186,8 +188,10 @@ class Forgettfull_Agent(Simple_Agent):
                 reward = step.reward
 
                 i = self.times_action_taken[epistemic_state][action]
+                x = min(i/(i+1.0), self.memory_time_discounting)
+                
                 exp = self.expected_utility[epistemic_state][action]
-                self.expected_utility[epistemic_state][action] = (1-self.memory_time_discounting)*reward + self.memory_time_discounting*exp
+                self.expected_utility[epistemic_state][action] = (1-x)*reward + x*exp
                 self.times_action_taken[epistemic_state][action] += 1
 
 
