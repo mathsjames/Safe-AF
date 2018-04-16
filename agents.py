@@ -150,3 +150,28 @@ class More_Advanced_Agent(Simple_Agent):
         xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
         action_probabilities = self.exploration.function(xp, self.games_played)
         return action_probabilities
+        
+class Forgettfull_Agent(Simple_Agent)
+
+    def learn_from(self, training_data):
+
+        training_data = self.learning_scheme.process(training_data)
+
+        for episode in training_data:
+
+            self.games_played += 1
+            self.total_utility += episode.utility
+
+            for step in episode.steps:
+
+                epistemic_state = step.epistemic_state
+                action = step.action
+                reward = step.reward
+
+                i = self.times_action_taken[epistemic_state][action]
+                exp = self.expected_utility[epistemic_state][action]
+                self.expected_utility[epistemic_state][action] = 0.1*reward + 0.9*exp
+                self.times_action_taken[epistemic_state][action] += 1
+
+
+
