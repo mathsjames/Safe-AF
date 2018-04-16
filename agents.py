@@ -151,7 +151,7 @@ class More_Advanced_Agent(Simple_Agent):
         action_probabilities = self.exploration.function(xp, self.games_played)
         return action_probabilities
         
-class Forgettfull_Agent(Simple_Agent)
+class Forgettfull_Agent(Simple_Agent):
 
     def learn_from(self, training_data):
 
