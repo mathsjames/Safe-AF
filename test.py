@@ -25,6 +25,7 @@ PDS = Prisoners_Dilemma_against_copy()
 SB1 = Sleeping_Beauty_V1()
 SB2 = Sleeping_Beauty_V2()
 Conitzer = Conitzer()
+SH = General2by2(lambda dummy: [(2,0),(1,1)],lambda dist: dist, "Stag Hunt")
 
 softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
@@ -50,8 +51,9 @@ test_configs = [#("Softmax + Total", AMD, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, softmax, average, ["NewRound"])
-                ("Softmax", Conitzer, softmax, average, ["White", "Black", "Grey", "START"]),
-                ("Epsilon Greedy", Conitzer, epsilongreedy, average, ["White", "Black", "Grey", "START"])
+                #("Softmax", Conitzer, softmax, average, ["White", "Black", "Grey", "START"]),
+                #("Epsilon Greedy", Conitzer, epsilongreedy, average, ["White", "Black", "Grey", "START"]),
+    ("Softmax",SH,softmax,idf,["NewRound"])
 ]
 
 for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
