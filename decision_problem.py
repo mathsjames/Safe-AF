@@ -69,7 +69,7 @@ class Decision_Problem:
         self.state = self.cause(self.state, action)
         utility = self.utility(self.state)
 
-        if self.state in self.end_states:
+        if self.is_final_state(self.state):
             self.finished = True
 
         return (self.epistemic_state(), utility)
@@ -88,3 +88,6 @@ class Decision_Problem:
             return self.causation_dict[(state, action)]
         except:
             return state
+
+    def is_final_state(self, state):
+        return state in self.end_states

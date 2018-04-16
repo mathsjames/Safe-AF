@@ -20,7 +20,7 @@ learning_scheme = idf
 x = []
 y = []
 
-for ratio in np.arange(0.0, 1.0, 0.01):
+for ratio in np.arange(0.0, 1.0, 0.1):
 
     print(ratio)
     ys = []

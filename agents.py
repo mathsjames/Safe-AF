@@ -111,8 +111,10 @@ class Simple_Agent:
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-        temp = {action:15 for action in self.actions}
+        temp = {action:5 for action in self.actions}
         self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
+
+        temp = {action:1 for action in self.actions}
         self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
