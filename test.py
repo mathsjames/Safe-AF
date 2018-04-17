@@ -9,9 +9,10 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from conitzer import Conitzer
 from agents import *
+from exploration_schemes import *
 
 repetitions = 10 # for testing stability
-iterations = 100000
+iterations = 1000
 #epochs = 1000
 #batch_size = 1
 
@@ -30,37 +31,33 @@ SH = General2by2(lambda dummy: [(2,0),(1,1)],lambda dist: dist, "Stag Hunt")
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
 xpcooling = exponential_cooling()
-Asoftmax = More_Advanced_Softmax(xpcooling)
+cooling_softmax = More_Advanced_Softmax(xpcooling)
+#better = Better()
 
 total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [#("Softmax + Total", AMD, softmax, total, ["Intersection"]),
-                #("Epsilon Greedy + Average", AMD, epsilongreedy, average, ["Intersection"]),
-                #("Softmax + ID", AMD, softmax, idf, ["Intersection"]),
-                #("Epsilon Greedy + ID", AMD, epsilongreedy, idf, ["Intersection"]),
-                #("Softmax", EB, softmax, idf, ["Blackmail", "No Blackmail"]),
-                #("Epsilon Greedy", EB, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", SB_bet, softmax, average, ["Awake"]),
-                ("Softmax", SB_game, softmax, idf, ["Awake"]),
-                #("Softmax", DiD, softmax, idf, ["Death states he will come for you tomorrow"]),
-                #("Epsilon Greedy", DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
-                #("Epsilon Greedy", G2DiD, epsilongreedy, idf, ["NewRound"]),
-                #("Softmax", PDS, softmax, idf, ["START"]),
-                #("Epsilon Greedy", PDS, epsilongreedy, average, ["START"]),
-                #("Softmax", G2EB, softmax, average, ["NewRound"]),
-                #("Softmax", G2NPR, softmax, average, ["NewRound"])
-                #("Softmax", Conitzer, softmax, average, ["White", "Black", "Grey", "START"]),
-<<<<<<< HEAD
-                #("Epsilon Greedy", Conitzer, epsilongreedy, average, ["White", "Black", "Grey", "START"])
-=======
-                #("Epsilon Greedy", Conitzer, epsilongreedy, average, ["White", "Black", "Grey", "START"]),
-    ("Softmax",SH,softmax,idf,["NewRound"])
->>>>>>> 887a9c24b4b8ea5cc65b889899394557ebcff54c
+test_configs = [#("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
+                #("Epsilon Greedy + Average", AMD, 5, epsilongreedy, average, ["Intersection"]),
+                #("Softmax + ID", AMD, softmax, 5, idf, ["Intersection"]),
+                #("Epsilon Greedy + ID", AMD, epsilongreedy, 5, idf, ["Intersection"]),
+                #("Softmax", EB, 5, softmax, idf, ["Blackmail", "No Blackmail"]),
+                #("Epsilon Greedy", EB, 5, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                #("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
+                #("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
+                #("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
+                #("Epsilon Greedy", 20, DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+                #("Epsilon Greedy", 20, G2DiD, epsilongreedy, idf, ["NewRound"]),
+                #("Softmax", PDS, 20, softmax, idf, ["START"]),
+                #("Epsilon Greedy", PDS, 20, epsilongreedy, average, ["START"]),
+                #("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
+                #("Softmax", G2NPR, 20, softmax, average, ["NewRound"])
+                #("Softmax", Conitzer, 20, softmax, average, ["White", "Black", "Grey", "START"]),
+                #("Epsilon Greedy", Conitzer, 20, epsilongreedy, average, ["White", "Black", "Grey", "START"])
 ]
 
-for agent_description, decision_problem, exploration_scheme, learning_scheme, interesting_states in test_configs:
+for agent_description, decision_problem, prior, exploration_scheme, learning_scheme, interesting_states in test_configs:
 
     print(decision_problem.description)
     print(agent_description)
@@ -69,7 +66,8 @@ for agent_description, decision_problem, exploration_scheme, learning_scheme, in
 
     for i in range(repetitions):
 
-        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
+        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
+
 
         history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
         distribution_histories.append(distribution_history)
