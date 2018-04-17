@@ -40,6 +40,24 @@ class More_Advanced_Softmax:
         e_x = np.exp(x-np.max(x))
         return e_x / e_x.sum(axis=0)
 
+<<<<<<< HEAD
+=======
+#def exponential_cooling(games_played):
+#    # Example of cooling function
+#    if  100*(0.99**games_played) > 0.00001:
+#        temperature = 100*(0.99**games_played)
+#    else:
+#        temperature = 0.00001
+#    return temperature
+
+class lambda_cooling:
+    def __init__(self,func):
+        self.func=func
+        
+    def function(self, games_played):
+        return self.func(games_played)
+
+>>>>>>> 898b261376563849a5ee52132196fb41af45e7e6
 class exponential_cooling:
     def function(self, games_played):
         if  100*(0.99**games_played) > 0.000001:
