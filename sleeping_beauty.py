@@ -82,10 +82,9 @@ class Sleeping_Beauty_by_game(Sleeping_Beauty_by_bet):
     def utility(self, state):
         coin, day, bet = state
         if coin == bet:
-            if coin == "HEADS":
+            if coin == "HEADS" or day == "Tuesday":
                 return 1
             else:
-                return 0.5
-                
+                return 0
         else:
             return 0

@@ -6,14 +6,14 @@ class Epsilon_Greedy:
         self.epsilon = float(epsilon)
 
     def function(self, x):
-        exploring = np.random.choice([True, False], 1, p=[self.epsilon, 1-self.epsilon])[0]
+        exploring_distribution = [1.0/len(x) for i in x]
+        mx = max(x)
+        mxs = list(filter(lambda x: x == mx, x))
+        not_exploring_distribution=[1.0/len(mxs) if i==mx else 0 for i in x]
+        return (1-self.epsilon)*not_exploring_distribution+self.epsilon*exploring_distribution
 
-        if exploring:
-            return [1.0/len(x) for i in x]
-        else:
-            mx = max(x)
-            mxs = list(filter(lambda x: x == mx, x))
-            return [1.0/len(mxs) if i==mx else 0 for i in x]
+# Epsilon-First?
+# Epsilon Decreasing?
 
 class Softmax:
 
@@ -45,12 +45,17 @@ class More_Advanced_Softmax:
 #        temperature = 0.00001
 #    return temperature
 
+class lambda_cooling:
+    def __init__(self,func):
+        self.func=func
+
+    def function(self, games_played):
+        return self.func(games_played)
+
 class exponential_cooling:
     def function(self, games_played):
-        # Example of cooling function
-        if  100*(0.99**games_played) > 0.00001:
+        if  100*(0.99**games_played) > 0.000001:
             temperature = 100*(0.99**games_played)
         else:
-            temperature = 0.00001
-        #print(temperature)
+            temperature = 0.000001
         return temperature
