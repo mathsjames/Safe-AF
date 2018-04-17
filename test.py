@@ -12,7 +12,7 @@ from agents import *
 from exploration_schemes import *
 
 repetitions = 10 # for testing stability
-iterations = 1000
+iterations = 100000
 #epochs = 1000
 #batch_size = 1
 
@@ -28,7 +28,7 @@ SB_game = Sleeping_Beauty_by_game()
 Conitzer = Conitzer()
 SH = General2by2(lambda dummy: [(2,0),(1,1)],lambda dist: dist, "Stag Hunt")
 
-softmax = Softmax(0.1)
+softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
 xpcooling = exponential_cooling()
 cooling_softmax = More_Advanced_Softmax(xpcooling)
@@ -97,14 +97,14 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
         plt.show(decision_problem.description + state + " action distributions")
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " action distributions.png")
 
-        for distribution_history in distribution_histories:
-            plt.plot(EXP_history[state][0][int(0.2*iterations):])
+        for EXP_history in EXP_histories:
+            plt.plot(EXP_history[state][0])
         plt.title("EXP of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
         plt.show(decision_problem.description + state + " EXP of " + agent.actions[0])
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+decision_problem.description + state + " EXP of " + agent.actions[0] + ".png")
 
-        for distribution_history in distribution_histories:
-            plt.plot(EXP_history[state][1][int(0.2*iterations):])
+        for EXP_history in EXP_histories:
+            plt.plot(EXP_history[state][1])
         plt.title("EXP of " + agent.actions[1] + " when " + state + " in " + decision_problem.description)
         plt.show(decision_problem.description + state + " EXP of " + agent.actions[1])
         #plt.savefig("C:\Users\Joar\Desktop\Decision Problems\plot "+ decision_problem.description + state + " EXP of " + agent.actions[1] + ".png")
