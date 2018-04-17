@@ -6,14 +6,11 @@ class Epsilon_Greedy:
         self.epsilon = float(epsilon)
 
     def function(self, x):
-        exploring = np.random.choice([True, False], 1, p=[self.epsilon, 1-self.epsilon])[0]
-
-        if exploring:
-            return [1.0/len(x) for i in x]
-        else:
-            mx = max(x)
-            mxs = list(filter(lambda x: x == mx, x))
-            return [1.0/len(mxs) if i==mx else 0 for i in x]
+        exploring_distribution = [1.0/len(x) for i in x]
+        mx = max(x)
+        mxs = list(filter(lambda x: x == mx, x))
+        not_exploring_distribution=[1.0/len(mxs) if i==mx else 0 for i in x]
+        return (1-self.epsilon)*not_exploring_distribution+self.epsilon*exploring_distribution
 
 # Epsilon-First?
 # Epsilon Decreasing?
