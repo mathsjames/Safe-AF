@@ -84,8 +84,7 @@ class Sleeping_Beauty_by_game(Sleeping_Beauty_by_bet):
         if coin == bet:
             if coin == "HEADS":
                 return 1
-            else:
-                return 0.5
-                
+            elif day == "Tuesday":
+                return 1
         else:
             return 0
