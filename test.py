@@ -49,7 +49,7 @@ test_configs = [#("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
                 #("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", 20, DiD, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", 20, G2DiD, epsilongreedy, idf, ["NewRound"]),
-                #("Softmax", PDS, 20, softmax, idf, ["START"]),
+                ("Softmax", PDS, 20, softmax, idf, ["START"]),
                 #("Epsilon Greedy", PDS, 20, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, 20, softmax, average, ["NewRound"])

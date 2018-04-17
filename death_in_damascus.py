@@ -1,6 +1,5 @@
 import numpy as np
 from decision_problem import Decision_Problem
-from agents import Simple_Agent, Softmax, Average
 
 class Death_In_Damascus(Decision_Problem):
     def __init__(self):
