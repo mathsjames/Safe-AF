@@ -9,10 +9,11 @@ from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 from sleeping_beauty import *
 from conitzer import Conitzer
 from agents import *
+from UCB_agent import *
 from exploration_schemes import *
 
 repetitions = 10 # for testing stability
-iterations = 100000
+iterations = 1000
 #epochs = 1000
 #batch_size = 1
 
@@ -63,14 +64,16 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
     print(agent_description)
 
     distribution_histories = []
+    EXP_histories = []
 
     for i in range(repetitions):
 
         agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
-
+        #agent = UCB_Agent(total, decision_problem, 1, prior, 1)
 
         history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
         distribution_histories.append(distribution_history)
+        EXP_histories.append(EXP_history)
         #for j in range(epochs):
             #history, _, _ = decision_problem.run(agent, batch_size, learn=True)
             #agent.learn_from(history)
