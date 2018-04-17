@@ -47,6 +47,13 @@ class More_Advanced_Softmax:
 #        temperature = 0.00001
 #    return temperature
 
+class lambda_cooling:
+    def __init__(self,func):
+        self.func=func
+        
+    def function(self, games_played):
+        return self.func(games_played)
+
 class exponential_cooling:
     def function(self, games_played):
         # Example of cooling function
