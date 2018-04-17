@@ -1,3 +1,5 @@
+from exploration_schemes import *
+
 class UCB_Agent:
 
     # Chooses the action a with the highest value of E(U|a)+c*STD(U|a)
@@ -30,10 +32,12 @@ class UCB_Agent:
         action_potential = [m+self.c*s for (m,s) in zip(mean_values, std_values)]
         best = max(action_potential)
         action_probabilities = [1 if x==best else 0 for x in action_potential]
-        #print(action_probabilities)
         action_probabilities = [x/sum(action_probabilities) for x in action_probabilities]
-        #print(action_probabilities)
+
         return action_probabilities
+
+    def get_expected_rewards(self, epistemic_state):
+        return self.expected_utility[epistemic_state]
 
     def learn_from(self, training_data):
 
@@ -57,3 +61,20 @@ class UCB_Agent:
                 self.expected_utility[epistemic_state][action] = (reward+exp*i)/(i+1.0)
                 self.mean_squared[epistemic_state][action] = (reward**2+mean_sq*i)/(i+1.0)
                 self.times_action_taken[epistemic_state][action] += 1
+
+
+class Softmax_UCB_Agent(UCB_Agent):
+
+    def __init__(self, learning_scheme, decision_problem, c, prior_mean, prior_std, temperature):
+        UCB_Agent.__init__(self, learning_scheme, decision_problem, c, prior_mean, prior_std)
+        self.softmax = Softmax(temperature)
+
+    def get_action_distribution(self, epistemic_state):
+
+        mean_values = [self.expected_utility[epistemic_state][action] for action in self.actions]
+        mean_sq_values = [self.mean_squared[epistemic_state][action] for action in self.actions]
+        std_values = [s-m**2 for (m,s) in zip(mean_values, mean_sq_values)]
+        action_potential = [m+self.c*s for (m,s) in zip(mean_values, std_values)]
+        action_probabilities = self.softmax.function(action_potential)
+
+        return action_probabilities

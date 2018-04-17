@@ -70,6 +70,9 @@ class Simple_Agent:
         action_probabilities = self.exploration.function(xp)
         return action_probabilities
 
+    def get_expected_rewards(self, epistemic_state):
+        return [self.expected_utility[epistemic_state][action] for action in self.actions]
+
     def learn_from(self, training_data):
 
         training_data = self.learning_scheme.process(training_data)
@@ -134,7 +137,7 @@ class Forgetfull_Agent(Simple_Agent):
 
                 i = self.times_action_taken[epistemic_state][action]
                 x = min(i/(i+1.0), self.memory_time_discounting)
-                
+
                 exp = self.expected_utility[epistemic_state][action]
                 self.expected_utility[epistemic_state][action] = (1-x)*reward + x*exp
                 self.times_action_taken[epistemic_state][action] += 1
