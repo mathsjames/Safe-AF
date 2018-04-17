@@ -1,69 +1,5 @@
 import numpy as np
 
-## Exploration Schemes ##
-
-class Epsilon_Greedy:
-
-    def __init__(self, epsilon):
-        self.epsilon = float(epsilon)
-
-    def function(self, x):
-        exploring = np.random.choice([True, False], 1, p=[self.epsilon, 1-self.epsilon])[0]
-
-        if exploring:
-            return [1.0/len(x) for i in x]
-        else:
-            mx = max(x)
-            mxs = list(filter(lambda x: x == mx, x))
-            return [1.0/len(mxs) if i==mx else 0 for i in x]
-
-class Softmax:
-
-    def __init__(self, temperature):
-        self.temperature = float(temperature)
-
-    def function(self, x):
-        x = [i/self.temperature for i in x]
-        e_x = np.exp(x-np.max(x))
-        return e_x / e_x.sum(axis=0)
-
-class More_Advanced_Softmax:
-
-    def __init__(self, cooling_function):
-        self.cooling_function = cooling_function
-        #Cooling function should be a function from number of games played to temperature
-
-    def function(self, x, games_played):
-        temperature = self.cooling_function.function(games_played)
-        x = [i/temperature for i in x]
-        e_x = np.exp(x-np.max(x))
-        return e_x / e_x.sum(axis=0)
-
-#def exponential_cooling(games_played):
-#    # Example of cooling function
-#    if  100*(0.99**games_played) > 0.00001:
-#        temperature = 100*(0.99**games_played)
-#    else:
-#        temperature = 0.00001
-#    return temperature
-
-class lambda_cooling:
-    def __init__(self,func):
-        self.func=func
-        
-    def function(self, games_played):
-        return self.func(games_played)
-
-class exponential_cooling:
-    def function(self, games_played):
-        # Example of cooling function
-        if  100*(0.99**games_played) > 0.00001:
-            temperature = 100*(0.99**games_played)
-        else:
-            temperature = 0.00001
-        #print(temperature)
-        return temperature
-
 ## Training data preprocessing functions ##
 
 class Identity_Function: # Should be used for all 1-step games
@@ -93,6 +29,7 @@ class Average:
         return ans
 
 class Total:
+    # Q-learning
     def __init__(self):
         pass
     def process(self, history):
@@ -110,7 +47,7 @@ class Total:
 
 class Simple_Agent:
 
-    def __init__(self, exploration_scheme, learning_scheme, decision_problem):
+    def __init__(self, exploration_scheme, learning_scheme, decision_problem, prior):
 
         self.actions = decision_problem.actions
         self.epistemic_states = decision_problem.epistemic_states
@@ -118,7 +55,7 @@ class Simple_Agent:
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-        temp = {action:5 for action in self.actions}
+        temp = {action:prior for action in self.actions}
         self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
 
         temp = {action:1 for action in self.actions}
@@ -159,8 +96,8 @@ class More_Advanced_Agent(Simple_Agent):
         xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
         action_probabilities = self.exploration.function(xp, self.games_played)
         return action_probabilities
-        
-class Forgettfull_Agent(Simple_Agent):
+
+class Forgetfull_Agent(Simple_Agent):
 
     def __init__(self, exploration_scheme, learning_scheme, decision_problem, memory_time_discounting):
 
@@ -170,13 +107,14 @@ class Forgettfull_Agent(Simple_Agent):
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-        temp = {action:15 for action in self.actions}
-        self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
-        self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
+        temp1 = {action:15 for action in self.actions}
+        temp2 = {action:1 for action in self.actions}
+        self.expected_utility = {es:temp1.copy() for es in self.epistemic_states}
+        self.times_action_taken = {es:temp2.copy() for es in self.epistemic_states}
 
         self.total_utility = 0
         self.games_played = 1
-        
+
         self.memory_time_discounting = memory_time_discounting
 
     def learn_from(self, training_data):
@@ -195,9 +133,8 @@ class Forgettfull_Agent(Simple_Agent):
                 reward = step.reward
 
                 i = self.times_action_taken[epistemic_state][action]
+                x = min(i/(i+1.0), self.memory_time_discounting)
+                
                 exp = self.expected_utility[epistemic_state][action]
-                self.expected_utility[epistemic_state][action] = (1-self.memory_time_discounting)*reward + self.memory_time_discounting*exp
+                self.expected_utility[epistemic_state][action] = (1-x)*reward + x*exp
                 self.times_action_taken[epistemic_state][action] += 1
-
-
-

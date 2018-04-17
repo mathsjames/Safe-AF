@@ -1,7 +1,8 @@
 import numpy as np
 import itertools
 from decision_problem import Decision_Problem
-from agents import Simple_Agent, Softmax, Average
+from agents import Simple_Agent, Average
+from exploration_schemes import Softmax
 
 
 #A description of the anthropic/DT problem described by Conitzer as a counterexample to DT+double-halfer here: https://users.cs.duke.edu/~conitzer/dutchSYNTHESE.pdf

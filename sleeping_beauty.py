@@ -5,8 +5,7 @@ from training_data import *
 import math
 #import matplotlib.pyplot as plt
 
-## WARNING! The implementation is a bit hacky:
-## This decision problem uses a modified version of run, and will have to be patched if the superclass is changed
+## WARNING! This decision problem has a  non-standard internal structure
 
 class Sleeping_Beauty_by_bet(Decision_Problem):
 
@@ -86,6 +85,7 @@ class Sleeping_Beauty_by_game(Sleeping_Beauty_by_bet):
             if coin == "HEADS":
                 return 1
             else:
-                return 1/2.0
+                return 0.5
+                
         else:
             return 0
