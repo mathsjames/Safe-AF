@@ -55,19 +55,11 @@ class Simple_Agent:
         self.exploration = exploration_scheme
         self.learning_scheme = learning_scheme
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 3c9bd0e2c6ce26ec71d1039e498a901afbdd3d0c
         temp = {action:prior for action in self.actions}
         self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
 
         temp = {action:1 for action in self.actions}
         self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
-<<<<<<< HEAD
-
-=======
->>>>>>> 3c9bd0e2c6ce26ec71d1039e498a901afbdd3d0c
 
         self.total_utility = 0
         self.games_played = 1
