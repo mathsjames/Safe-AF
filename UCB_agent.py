@@ -4,7 +4,7 @@ class UCB_Agent:
 
     # Chooses the action a with the highest value of E(U|a)+c*STD(U|a)
 
-    def __init__(self, learning_scheme, decision_problem, c, prior_mean, prior_std):
+    def __init__(self, learning_scheme, decision_problem, c, prior):
 
         self.actions = decision_problem.actions
         self.epistemic_states = decision_problem.epistemic_states
@@ -12,10 +12,10 @@ class UCB_Agent:
 
         self.c = c
 
-        temp = {action:prior_mean for action in self.actions}
+        temp = {action:prior for action in self.actions}
         self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
 
-        temp = {action:prior_mean**2 for action in self.actions}
+        temp = {action:prior**2 for action in self.actions}
         self.mean_squared = {es:temp.copy() for es in self.epistemic_states}
 
         temp = {action:1 for action in self.actions}
@@ -37,7 +37,7 @@ class UCB_Agent:
         return action_probabilities
 
     def get_expected_rewards(self, epistemic_state):
-        return self.expected_utility[epistemic_state]
+        return [self.expected_utility[epistemic_state][action] for action in self.actions]
 
     def learn_from(self, training_data):
 
@@ -65,8 +65,8 @@ class UCB_Agent:
 
 class Softmax_UCB_Agent(UCB_Agent):
 
-    def __init__(self, learning_scheme, decision_problem, c, prior_mean, prior_std, temperature):
-        UCB_Agent.__init__(self, learning_scheme, decision_problem, c, prior_mean, prior_std)
+    def __init__(self, learning_scheme, decision_problem, c, prior, temperature):
+        UCB_Agent.__init__(self, learning_scheme, decision_problem, c, prior)
         self.softmax = Softmax(temperature)
 
     def get_action_distribution(self, epistemic_state):

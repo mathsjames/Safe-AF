@@ -22,19 +22,11 @@ class Decision_Problem:
         self.finished = False
         self.state = None
 
-    #runs and lets the agent learn after each instance of the problem if input variable learn is True.
-    def run(self, agent, iterations, learn=False, interesting_states=[]):
-        history = []
-
-        distribution_history = {state:[] for state in interesting_states}
-        EXP_history = {state:{0:[], 1:[]} for state in interesting_states}
-
-        for i in range(iterations):
+    def play(self, agent):
 
             self.reset_with(agent)
             step_history = []
             utility = 0
-
             while not self.finished:
 
                 epistemic_state = self.epistemic_state()
@@ -47,6 +39,18 @@ class Decision_Problem:
                 step_history.append(s)
 
             episode = Episode(utility, step_history)
+            return episode
+
+    #runs and lets the agent learn after each instance of the problem if input variable learn is True.
+    def run(self, agent, iterations, learn=False, interesting_states=[]):
+        history = []
+
+        distribution_history = {state:[] for state in interesting_states}
+        EXP_history = {state:{0:[], 1:[]} for state in interesting_states}
+
+        for i in range(iterations):
+
+            episode = self.play(agent)
 
             if learn:
                 agent.learn_from([episode])

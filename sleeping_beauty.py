@@ -10,7 +10,6 @@ import math
 class Sleeping_Beauty_by_bet(Decision_Problem):
 
     # Reward given by bet, should result in SIA/thirder
-    # Being a halfer yields almost the same reward however
 
     def __init__(self):
         self.actions = ["GUESS HEADS", "GUESS TAILS"]
@@ -79,12 +78,16 @@ class Sleeping_Beauty_by_game(Sleeping_Beauty_by_bet):
         Sleeping_Beauty_by_bet.__init__(self)
         self.description = "Sleeping Beauty, reward by game"
 
-    def utility(self, state):
-        coin, day, bet = state
-        if coin == bet:
-            if coin == "HEADS" or day == "Tuesday":
-                return 1
-            else:
-                return 0
-        else:
-            return 0
+    def play(self, agent):
+
+            self.reset_with(agent)
+            while not self.finished:
+
+                epistemic_state = self.epistemic_state()
+                action_distribution = agent.get_action_distribution(epistemic_state)
+                action = np.random.choice(self.actions, 1, p=action_distribution)[0]
+                _, reward = self.do(action)
+                step = Step(epistemic_state, action, reward)
+
+            episode = Episode(reward, [step])
+            return episode

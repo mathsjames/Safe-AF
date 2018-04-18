@@ -10,9 +10,10 @@ from sleeping_beauty import *
 from conitzer import Conitzer
 from agents import *
 from UCB_agent import *
+from EXP3_agent import *
 from exploration_schemes import *
 
-repetitions = 5 # for testing stability
+repetitions = 10 # for testing stability
 iterations = 100000
 #epochs = 1000
 #batch_size = 1
@@ -39,18 +40,18 @@ total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [#("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
+test_configs = [("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + Average", AMD, 5, epsilongreedy, average, ["Intersection"]),
-                #("Softmax + ID", AMD, softmax, 5, idf, ["Intersection"]),
-                #("Epsilon Greedy + ID", AMD, epsilongreedy, 5, idf, ["Intersection"]),
-                #("Softmax", EB, 5, softmax, idf, ["Blackmail", "No Blackmail"]),
+                #("Softmax + ID", AMD, 5, softmax, idf, ["Intersection"]),
+                #("Epsilon Greedy + ID", AMD,5,  epsilongreedy, idf, ["Intersection"]),
+                ("Softmax", EB, 20, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, 5, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
-                ("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
-                #("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
+                #("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
+                #("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
+                ("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", DiD, 20, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", 20, G2DiD, epsilongreedy, idf, ["NewRound"]),
-                #("Softmax", PDS, 20, softmax, idf, ["START"]),
+                ("Softmax", PDS, 20, softmax, idf, ["START"]),
                 #("Epsilon Greedy", PDS, 20, epsilongreedy, average, ["START"]),
                 #("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
                 #("Softmax", G2NPR, 20, softmax, average, ["NewRound"])
@@ -68,9 +69,10 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
 
     for i in range(repetitions):
 
-        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
-        #agent = UCB_Agent(total, decision_problem, c=1, prior_mean=prior, prior_std=1)
-        #agent = Softmax_UCB_Agent(total, decision_problem, c=1, prior_mean=prior, prior_std=1, temperature=0.1)
+        #agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
+        #agent = UCB_Agent(learning_scheme, decision_problem, c=1, prior_mean=prior, prior_std=1)
+        #agent = Softmax_UCB_Agent(learning_scheme, decision_problem, c=1, prior=prior, temperature=1)
+        agent = EXP3_Agent(learning_scheme, decision_problem, epsilon=0.01, prior=prior)
 
         history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
         distribution_histories.append(distribution_history)
