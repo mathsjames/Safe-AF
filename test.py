@@ -70,9 +70,9 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
     for i in range(repetitions):
 
         #agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
-        #agent = UCB_Agent(learning_scheme, decision_problem, c=1, prior_mean=prior, prior_std=1)
-        #agent = Softmax_UCB_Agent(learning_scheme, decision_problem, c=1, prior=prior, temperature=1)
-        agent = EXP3_Agent(learning_scheme, decision_problem, epsilon=0.01, prior=prior)
+        #agent = UCB_Agent(learning_scheme, decision_problem, prior)
+        agent = Softmax_UCB_Agent(learning_scheme, decision_problem, prior=prior, temperature=0.1)
+        #agent = EXP3_Agent(learning_scheme, decision_problem, epsilon=0.01, prior=prior)
 
         history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
         distribution_histories.append(distribution_history)
