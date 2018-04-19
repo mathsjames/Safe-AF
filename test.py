@@ -32,7 +32,7 @@ SH = General2by2(lambda dummy: [(2,0),(1,1)],lambda dist: dist, "Stag Hunt")
 
 softmax = Softmax(0.1)
 epsilongreedy = Epsilon_Greedy(0.01)
-xpcooling = exponential_cooling()
+xpcooling = Exponential_cooling()
 cooling_softmax = More_Advanced_Softmax(xpcooling)
 #better = Better()
 
@@ -42,20 +42,20 @@ idf = Identity_Function()
 
 test_configs = [("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + Average", AMD, 5, epsilongreedy, average, ["Intersection"]),
-                #("Softmax + ID", AMD, 5, softmax, idf, ["Intersection"]),
+                ("Softmax + ID", AMD, 5, softmax, idf, ["Intersection"]),
                 #("Epsilon Greedy + ID", AMD,5,  epsilongreedy, idf, ["Intersection"]),
                 ("Softmax", EB, 20, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, 5, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                #("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
-                #("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
+                ("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
+                ("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
                 ("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", DiD, 20, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
                 #("Epsilon Greedy", 20, G2DiD, epsilongreedy, idf, ["NewRound"]),
-                ("Softmax", PDS, 20, softmax, idf, ["START"]),
+                ("Softmax", PDS, 20, cooling_softmax, idf, ["START"]),
                 #("Epsilon Greedy", PDS, 20, epsilongreedy, average, ["START"]),
-                #("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
-                #("Softmax", G2NPR, 20, softmax, average, ["NewRound"])
-                #("Softmax", Conitzer, 20, softmax, average, ["White", "Black", "Grey", "START"]),
+                ("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
+                ("Softmax", G2NPR, 20, softmax, average, ["NewRound"]),
+                ("Softmax", Conitzer, 20, softmax, average, ["White", "Black", "Grey", "START"]),
                 #("Epsilon Greedy", Conitzer, 20, epsilongreedy, average, ["White", "Black", "Grey", "START"])
 ]
 
