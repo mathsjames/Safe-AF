@@ -11,13 +11,8 @@ class UCB_Agent:
         self.epistemic_states = decision_problem.epistemic_states
         self.learning_scheme = learning_scheme
 
-        #self.c = c
-
         temp = {action:prior for action in self.actions}
         self.expected_utility = {es:temp.copy() for es in self.epistemic_states}
-
-        #temp = {action:prior**2 for action in self.actions}
-        #self.mean_squared = {es:temp.copy() for es in self.epistemic_states}
 
         temp = {action:1 for action in self.actions}
         self.times_action_taken = {es:temp.copy() for es in self.epistemic_states}
@@ -29,9 +24,6 @@ class UCB_Agent:
 
         es = epistemic_state
         exp = {a:self.expected_utility[es][a] for a in self.actions}
-        #mean_sq_values = [self.mean_squared[epistemic_state][action] for action in self.actions]
-        #std_values = [s-m**2 for (m,s) in zip(mean_values, mean_sq_values)]
-        #action_potential = [m+self.c*s for (m,s) in zip(mean_values, std_values)]
         T = sum([self.times_action_taken[es][a] for a in self.actions])
         c = 2*math.log(T)**0.5 # derived from Hoeffding's inequality
         action_potential = [exp[a]+c/self.times_action_taken[es][a] for a in self.actions]
@@ -62,10 +54,8 @@ class UCB_Agent:
 
                 i = self.times_action_taken[epistemic_state][action]
                 exp = self.expected_utility[epistemic_state][action]
-                #mean_sq = self.mean_squared[epistemic_state][action]
 
                 self.expected_utility[epistemic_state][action] = (reward+exp*i)/(i+1.0)
-                #self.mean_squared[epistemic_state][action] = (reward**2+mean_sq*i)/(i+1.0)
                 self.times_action_taken[epistemic_state][action] += 1
 
 
@@ -81,9 +71,6 @@ class Softmax_UCB_Agent(UCB_Agent):
 
         es = epistemic_state
         exp = {a:self.expected_utility[es][a] for a in self.actions}
-        #mean_sq_values = [self.mean_squared[epistemic_state][action] for action in self.actions]
-        #std_values = [s-m**2 for (m,s) in zip(mean_values, mean_sq_values)]
-        #action_potential = [m+self.c*s for (m,s) in zip(mean_values, std_values)]
         T = sum([self.times_action_taken[es][a] for a in self.actions])
         c = 2*math.log(T)**0.5 # derived from Hoeffding's inequality
         action_potential = [exp[a]+c/self.times_action_taken[es][a] for a in self.actions]
