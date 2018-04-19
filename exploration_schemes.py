@@ -33,8 +33,8 @@ class More_Advanced_Softmax:
 
     def function(self, x, games_played):
         temperature = self.cooling_function.function(games_played)
-        if temperature==0
-            #Do greedy
+        if temperature==0:
+            pass #Do greedy
         else:
             x = [i/temperature for i in x]
             e_x = np.exp(x-np.max(x))
@@ -57,5 +57,5 @@ class Lambda_cooling:
 
 class Exponential_cooling:
     def function(self, games_played):
-        temperature = 100*(0.99**games_played)
-    return temperature
+        temperature = 1000*(0.99**games_played)
+        return temperature
