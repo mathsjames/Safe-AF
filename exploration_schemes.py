@@ -34,7 +34,7 @@ class More_Advanced_Softmax:
     def function(self, x, games_played):
         temperature = self.cooling_function.function(games_played)
         if temperature==0:
-            pass #Do greedy
+            return [1.0/len(mxs) if i==mx else 0 for i in x]
         else:
             x = [i/temperature for i in x]
             e_x = np.exp(x-np.max(x))
