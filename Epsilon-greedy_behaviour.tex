@@ -1,0 +1,70 @@
+\documentclass[a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{changepage}
+
+\newcommand{\ep}{\langle p \rangle}
+\newcommand{\pp}{\langle p^2 \rangle}
+\newcommand{\sdp}{\mathrm{sd}(p)}
+\newcommand{\ord}{\mathcal{O}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+Assumptions:
+\begin{itemize}
+	\item If the agent exicutes $\epsilon$-greedy with constant $\epsilon$, the environment does not need to be continious
+	\item If the agent exicutes a policy that converges to $\epsilon$-greedy with constant $\epsilon$ in the limit $t\rightarrow\infty$ then the environment needs to be continious around $p_i=\epsilon$ and $p_i=1-\epsilon$
+\end{itemize}
+
+
+\textbf{If the agent behaves like $\epsilon$-greedy, for at fixed $\epsilon>0$, in the limit $t\rightarrow\infty$} then the set of explored action probabilities will eventually be dominated by values $p_i$ such that $p_i\in\{\epsilon,1-\epsilon\}$.
+
+For some $q$, we have that
+\begin{equation}
+	\ep = q(1-\epsilon) + (1-q)\epsilon = q - 2q\epsilon + \epsilon
+\end{equation}
+\begin{align}
+	\pp &= q(1-\epsilon)^2 + (1-q)\epsilon^2 = q - 2q\epsilon + \epsilon^2\\
+	    &= \ep - \epsilon(1-\epsilon)
+\end{align}
+This allowes us to simplify the expected learned utility difference, $\Delta$ (see table) as a function of only $\ep$ and the constants of the problem. Note that because $\ep$ is dominated by $p_i\in\{\epsilon,1-\epsilon\}$, we must get $\epsilon\leq\ep\leq(1-\epsilon)$
+
+\textbf{Becasue of law ot large numbers (?)}, $\Delta$ will eventual eventually describe the agents belif arbitary well. Let $\Delta=Q(a_1)-Q(a_2)$ and $p_i = P(a_1|t=i)$. If currently $\Delta>0$, the agent will exicute $p_i=1-\epsilon$ and drive $\ep$ towards this value. If currently $\Delta<0$, the agent will exicute $p_i=\epsilon$ and drive $\ep$ towards that value. Therefore the only posible stable points are
+\begin{equation}\label{stable_min}
+	\ep = \epsilon \quad \& \quad \Delta\leq0
+\end{equation}
+\begin{equation}\label{stable_max}
+	\ep = 1-\epsilon \quad \& \quad \Delta\geq0
+\end{equation}
+\begin{equation}\label{stable_root}
+	\Delta=0 \quad \& \quad \frac{d\Delta}{d\ep}\leq0
+\end{equation}
+(\ref{stable_min}) and (\ref{stable_max}) represent constant $p_i$ at ether extreme, $\epsilon$ or $1-\epsilon$. (\ref{stable_root}) represent fluctuating $p_i$ but with a stable $\ep$ in between the two extremes.
+
+\textbf{Concider an environment with concists of the agent playing a game agianst it self} with an arbitary payof matrix. The copy will always use the same action probabilites as the agent, for any given round.
+
+\begin{tabular}{cc}
+	& copy\\
+	self
+	& \begin{tabular}{c|c|c|}
+		& $a_1$ & $a_2$ \\
+		\hline
+		$a_1$ & $M_{11}$ & $M_{12}$ \\
+		\hline
+		$a_2$ & $M_{12}$ & $M_{12}$ \\
+		\hline
+	\end{tabular}
+\end{tabular}
+
+This generalisation covers, for example, \textit{Prisoners' dilemma agains copy} and \textit{Death in Damaskus} but not \textit{Absent minded driver} and \textit{Evidential blackmail}.
+
+
+
+
+\end{document}
