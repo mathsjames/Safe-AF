@@ -1,0 +1,127 @@
+\documentclass[a4paper]{article}
+%\documentclass[landscape, 12pt]{report}
+
+
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{changepage}
+
+
+\newcommand{\ep}{\langle p \rangle}
+\newcommand{\pp}{\langle p^2 \rangle}
+\newcommand{\sdp}{\mathrm{sd}(p)}
+\newcommand{\ord}{\mathcal{O}}
+
+
+\begin{document}
+
+
+\begin{landscape}
+\thispagestyle{empty}
+\begin{table}[!ht]
+   \begin{adjustwidth}{-3cm}{}
+
+\begin{tabular}{l|c|c|c|c|}
+		\begin{tabular}{@{}l@{}}		
+			\textbf{Decition problem} \\
+			and definitions
+		\end{tabular}
+		&\begin{tabular}{@{}c@{}}
+  			\textbf{General expression for $\Delta$}\\
+  			$\ep := \dfrac{1}{N}\sum\limits_{i=0}^{N-1} p_i
+  			,\quad
+  			\pp := \dfrac{1}{N}\sum\limits_{i=0}^{N-1} p_i^2$
+  		\end{tabular}
+  		&\begin{tabular}{@{}l@{}}
+  			$p_i = p$ (constant) \\
+  			$\implies \ep = p$ \\
+  			$\implies \pp = p^2$ 
+  		\end{tabular}
+  		&\begin{tabular}{@{}l@{}}
+  			$p_i \in \{0,1\}$ \\
+  			$\implies \pp = \ep$ \\
+		\end{tabular}
+		&\begin{tabular}{@{}l@{}}
+			$p_i \in \{\epsilon,1-\epsilon\}$ \\
+			$\implies \epsilon \leq \ep \leq 1-\epsilon$\\
+			$\implies \pp = \ep - \epsilon(1-\epsilon)$
+		\end{tabular}\\		  
+ 	\hline
+ 		\begin{tabular}{@{}l@{}}
+ 			\textbf{Prisoners dilemma against copy} \\
+ 			$\Delta := Q(\text{Cooperate})-Q(\text{Defect})$\\
+ 			$p_i := P(\text{Cooperate}|h_{>i})$\\
+ 			$M :=$ Gain from copy cooperating\\
+ 			$m :=$ Gain from self defecting\\
+ 		\end{tabular}
+ 		& $\Delta = M\dfrac{\pp-\ep^2}{\ep(1-\ep)} - m$
+ 		& $\Delta = -m$
+ 		& $\Delta = M-m$
+ 		& $\Delta = M\left(1-\frac{\epsilon(1-\epsilon)}{\ep(1-\ep)}\right)-m$\\
+ 	\hline
+ 		\begin{tabular}{@{}l@{}}
+ 			\textbf{Evidential blackmail} \\
+ 			$\Delta := Q(\text{Pay}|\text{Blackmail})$\\
+ 			\hfill $-Q(\text{Dont}|\text{Blackmail})$ \\
+ 			$p_i := P(\text{Pay}|\text{Blackmail},h_{>i})$\\
+ 			$M := \text{Curent stock value}$\\
+ 			$m := \text{Blackmail ransom}$\\
+ 			$q := P(\text{Market crach})$
+ 		\end{tabular}
+ 		& \begin{tabular}{@{}c@{}}
+ 			$\Delta = M\dfrac{q(1-q)(\pp-\ep^2)}{q^2\ep(1-\ep)+\beta} - m$\\
+ 			\\
+ 			\small $\beta = (1-2q)[\ep^2+\pp-3q\ep\pp-(1-2q)\pp^2]$
+ 		\end{tabular}
+ 		& $\Delta = -m$
+ 		& $\Delta = $
+ 		& $\Delta = $\\
+ 	\hline
+ 		\begin{tabular}{@{}l@{}}
+ 			\textbf{Absent minded driver} \\
+ 			$\Delta := Q(\text{Continue})-Q(\text{Exit})$\\
+ 			$p_i := P(\text{Continue}|h_{>i})$		
+ 		\end{tabular}
+ 		& $\Delta = \frac{4\ep - 4\ep^2 - 2\pp - 4\ep\pp + 6\pp^2}
+ 		                 {(1-\pp)(\ep+\pp)} $
+ 		& $\Delta = \dfrac{4-6p}{1+p}$
+ 		& $\Delta = 1$
+ 		& $\Delta = \frac{2\ep(1-\ep) + [2-8\ep+6\epsilon(1-\epsilon)]\epsilon(1-\epsilon)}
+ 						 {2\ep(1-\ep) + [3\ep-1-\epsilon(1-\epsilon)]\epsilon(1-\epsilon)}$\\
+ 	\hline
+ 		\begin{tabular}{@{}l@{}}
+ 			\textbf{Death in Damaskus} \\
+ 			$\Delta := Q(\text{Damaskus}) - Q(\text{Alleppo})$ \\
+ 			$p_i := P(\text{Damaskus}|h_{>i})$ \\
+ 			$M := \text{Value of beeing alive}$ 		
+ 		\end{tabular}
+ 		& $\Delta = M \dfrac{(\ep-\pp)(1-2\ep)}{\ep(1-\ep)}$
+ 		& $\Delta = M (1-2p)$
+ 		& $\Delta = 0$
+ 		& $\Delta = M \dfrac{\epsilon(1-\epsilon)(1-2\ep)}{\ep(1-\ep)}$ \\
+ 	\hline
+ 		\begin{tabular}{@{}l@{}}
+ 			\textbf{Game against copy with}\\ 
+ 			\textbf{general payof matrix}\\
+ 			$\Delta := Q(a_1)-Q(a_2)$\\
+ 			$p_i := P(a_1|h_{>i})$\\
+ 			$M_{jk} :=$ Reward for self doing $a_j$ \\ 
+ 			\hfill and coppy doing $a_k$ 
+ 		\end{tabular}
+ 		& $\Delta = $
+ 		& $\Delta = $
+ 		& $\Delta = M_{11} - M_{22}$
+ 		&\begin{tabular}{@{}l@{}} 
+ 			$\Delta = M_{11} - M_{22}$ \\
+ 			$\qquad +\left(\frac{M_{12}-M_{11}}{\ep} + \frac{M_{22}-M_{21}}{1-\ep}\right)
+ 					\epsilon(1-\epsilon)$ 
+ 		\end{tabular}
+\end{tabular}
+
+\end{adjustwidth}
+\end{table}
+\end{landscape}
+
+\end{document}
