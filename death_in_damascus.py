@@ -3,16 +3,16 @@ from decision_problem import Decision_Problem
 
 class Death_In_Damascus(Decision_Problem):
     def __init__(self):
-        self.actions = ["STAY IN DAMASCUS", "FLEE TO ALEPPO"]
+        self.actions = ["STAY", "FLEE"]
 
         self.states = ["DDamascus", "DAleppo", "ADamascus+DDamascus", "ADamascus+DAleppo", "AAleppo+DDamascus", "AAleppo+DAleppo"]
 
         self.end_states = ["ADamascus+DDamascus", "ADamascus+DAleppo", "AAleppo+DDamascus", "AAleppo+DAleppo"]
 
-        self.epistemic_states = ["Death states he will come for you tomorrow", "END"]
+        self.epistemic_states = ["warned by death", "END"]
 
-        self.state_to_epistemic_state_dict = {"DDamascus":"Death states he will come for you tomorrow",
-                                              "DAleppo":"Death states he will come for you tomorrow",
+        self.state_to_epistemic_state_dict = {"DDamascus":"warned by death",
+                                              "DAleppo":"warned by death",
                                               "ADamascus+DDamascus":"END",
                                               "ADamascus+DAleppo":"END",
                                               "AAleppo+DDamascus":"END",
@@ -36,7 +36,7 @@ class Death_In_Damascus(Decision_Problem):
     def reset_with(self, agent):
         self.finished = False
 
-        action_distribution = agent.get_action_distribution("Death states he will come for you tomorrow")
+        action_distribution = agent.get_action_distribution("warned by death")
         action = np.random.choice(self.actions, 1, p=action_distribution)[0]
 
         if action == "STAY IN DAMASCUS":

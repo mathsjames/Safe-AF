@@ -6,11 +6,15 @@ class Epsilon_Greedy:
         self.epsilon = float(epsilon)
 
     def function(self, x):
-        exploring_distribution = [1.0/len(x) for i in x]
+        exploring_distribution = [self.epsilon/len(x) for i in x]
+        
         mx = max(x)
         mxs = list(filter(lambda x: x == mx, x))
-        not_exploring_distribution=[1.0/len(mxs) if i==mx else 0 for i in x]
-        return (1-self.epsilon)*not_exploring_distribution+self.epsilon*exploring_distribution
+        not_exploring_distribution=[(1-self.epsilon)/len(mxs) if i==mx else 0 for i in x]
+
+        ans = [a+b for (a,b) in zip(exploring_distribution, not_exploring_distribution)]
+
+        return ans
 
 # Epsilon-First?
 # Epsilon Decreasing?
