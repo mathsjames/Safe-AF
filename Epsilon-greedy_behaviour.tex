@@ -23,7 +23,11 @@ Assumptions:
 \end{itemize}
 
 
+<<<<<<< HEAD
 \textbf{If the agent behaves like $\epsilon$-greedy, for at fixed $\epsilon>0$, in the limit $t\rightarrow\infty$} then the set of explored action probabilities will eventually be dominated by values $p_i$ such that $p_i\in\{\epsilon,1-\epsilon\}$.
+=======
+\textbf{If the agent behaves like $\epsilon$-greedy, with convergent $\epsilon<1/2$, in the limit $t\rightarrow\infty$} then the set of explored action probabilities will eventually be dominated by values $p_i$ such that $p_i\in\{\epsilon,1-\epsilon\}$.
+>>>>>>> 89ac1f4db86b4428e517ce69379fece42adaa1cd
 
 For some $q$, we have that
 \begin{equation}
@@ -47,8 +51,14 @@ This allowes us to simplify the expected learned utility difference, $\Delta$ (s
 \end{equation}
 (\ref{stable_min}) and (\ref{stable_max}) represent constant $p_i$ at ether extreme, $\epsilon$ or $1-\epsilon$. (\ref{stable_root}) represent fluctuating $p_i$ but with a stable $\ep$ in between the two extremes.
 
+<<<<<<< HEAD
 \textbf{Concider an environment with concists of the agent playing a game agianst it self} with an arbitary payof matrix. The copy will always use the same action probabilites as the agent, for any given round.
 
+=======
+\textbf{Concider an agent playing a game with an arbitary payof matrix, agianst a copy of it self.} The copy will always use the same action probabilites as the agent, for any given round.
+
+\begin{center}
+>>>>>>> 89ac1f4db86b4428e517ce69379fece42adaa1cd
 \begin{tabular}{cc}
 	& copy\\
 	self
@@ -57,6 +67,7 @@ This allowes us to simplify the expected learned utility difference, $\Delta$ (s
 		\hline
 		$a_1$ & $M_{11}$ & $M_{12}$ \\
 		\hline
+<<<<<<< HEAD
 		$a_2$ & $M_{12}$ & $M_{12}$ \\
 		\hline
 	\end{tabular}
@@ -65,6 +76,54 @@ This allowes us to simplify the expected learned utility difference, $\Delta$ (s
 This generalisation covers, for example, \textit{Prisoners' dilemma agains copy} and \textit{Death in Damaskus} but not \textit{Absent minded driver} and \textit{Evidential blackmail}.
 
 
+=======
+		$a_2$ & $M_{21}$ & $M_{22}$ \\
+		\hline
+	\end{tabular}
+\end{tabular}
+\end{center}
+
+This generalisation covers, for example, \textit{Prisoners' dilemma agains copy} and \textit{Death in Damaskus} but not \textit{Absent minded driver} and \textit{Evidential blackmail}.
+
+If $p_i\in\{\epsilon,1-\epsilon\}$, then
+\begin{equation}
+	\Delta = M_{11} - M_{22} 
+	+ \left(\frac{M_{12}-M_{11}}{\ep} - \frac{M_{21}-M_{22}}{1-\ep}\right)
+	\epsilon(1-\epsilon)
+\end{equation}
+\begin{equation}
+	\frac{d\Delta}{d\ep} = 
+	\left(\frac{M_{11}-M_{12}}{\ep^2} - \frac{M_{21}-M_{22}}{(1-\ep)^2}\right)\epsilon(1-\epsilon)
+\end{equation}
+The roots of this expression are
+\begin{equation}
+	\Delta = 0 \implies 
+	\begin{cases}
+		\ep = \dfrac{M_{11}-M_{12}}{M_{11}-M_{22}}\epsilon 
+			  + \ord(\epsilon^2)\\
+		\quad \textbf{or}\\
+		1 - \ep = \dfrac{M_{21}-M_{22}}{M_{11}-M_{22}}\epsilon
+			  	  + \ord(\epsilon^2)
+	\end{cases}
+\end{equation}
+The derivatives at those points are
+\begin{equation}
+	\left.\frac{d\Delta}{d\ep}\right|_{\ep = \frac{M_{11}-M_{12}}{M_{11}-M_{22}}\epsilon}
+	= \frac{(M_{11}-M_{22})^2}{M_{11}-M_{12}} + \ord(\epsilon)
+\end{equation}
+\begin{equation}
+	\left.\frac{d\Delta}{d\ep}\right|_{1-\ep = \frac{M_{21}-M_{22}}{M_{11}-M_{22}}\epsilon}
+	= \frac{(M_{11}-M_{22})^2}{M_{22}-M_{21}} + \ord(\epsilon)
+\end{equation}
+
+\textbf{If $\epsilon\rightarrow0$ when $t\rightarrow\infty$, then} 
+\begin{equation}
+	\ep \text{ can converge to 0} \quad\textbf{iff}\quad (M_{11}<M_{22})\textbf{or}(M_{12}<M_{22})
+\end{equation}
+\begin{equation}
+	\ep \text{ can converge to 1} \quad\textbf{iff}\quad (M_{22}<M_{11})\textbf{or}(M_{21}<M_{11})
+\end{equation}
+>>>>>>> 89ac1f4db86b4428e517ce69379fece42adaa1cd
 
 
 \end{document}

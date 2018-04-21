@@ -39,7 +39,7 @@ class Death_In_Damascus(Decision_Problem):
         action_distribution = agent.get_action_distribution("warned by death")
         action = np.random.choice(self.actions, 1, p=action_distribution)[0]
 
-        if action == "STAY IN DAMASCUS":
+        if action == "STAY":
              self.state = "DDamascus"
         else:
              self.state = "DAleppo"
