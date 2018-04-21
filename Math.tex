@@ -52,7 +52,7 @@
  		\begin{tabular}{@{}l@{}}
  			\textbf{Prisoners dilemma against copy} \\
  			$\Delta := Q(\text{Cooperate})-Q(\text{Defect})$\\
- 			$p_i := P(\text{Cooperate}|h_{>i})$\\
+ 			$p_i := P(\text{Cooperate}|t=i)$\\
  			$M :=$ Gain from copy cooperating\\
  			$m :=$ Gain from self defecting\\
  		\end{tabular}
@@ -65,7 +65,7 @@
  			\textbf{Evidential blackmail} \\
  			$\Delta := Q(\text{Pay}|\text{Blackmail})$\\
  			\hfill $-Q(\text{Dont}|\text{Blackmail})$ \\
- 			$p_i := P(\text{Pay}|\text{Blackmail},h_{>i})$\\
+ 			$p_i := P(\text{Pay}|\text{Blackmail},t=i)$\\
  			$M := \text{Curent stock value}$\\
  			$m := \text{Blackmail ransom}$\\
  			$q := P(\text{Market crach})$
@@ -82,7 +82,7 @@
  		\begin{tabular}{@{}l@{}}
  			\textbf{Absent minded driver} \\
  			$\Delta := Q(\text{Continue})-Q(\text{Exit})$\\
- 			$p_i := P(\text{Continue}|h_{>i})$		
+ 			$p_i := P(\text{Continue}|t=i)$		
  		\end{tabular}
  		& $\Delta = \frac{4\ep - 4\ep^2 - 2\pp - 4\ep\pp + 6\pp^2}
  		                 {(1-\pp)(\ep+\pp)} $
@@ -94,7 +94,7 @@
  		\begin{tabular}{@{}l@{}}
  			\textbf{Death in Damaskus} \\
  			$\Delta := Q(\text{Damaskus}) - Q(\text{Alleppo})$ \\
- 			$p_i := P(\text{Damaskus}|h_{>i})$ \\
+ 			$p_i := P(\text{Damaskus}|t=i)$ \\
  			$M := \text{Value of beeing alive}$ 		
  		\end{tabular}
  		& $\Delta = M \dfrac{(\ep-\pp)(1-2\ep)}{\ep(1-\ep)}$
@@ -106,7 +106,7 @@
  			\textbf{Game against copy with}\\ 
  			\textbf{general payof matrix}\\
  			$\Delta := Q(a_1)-Q(a_2)$\\
- 			$p_i := P(a_1|h_{>i})$\\
+ 			$p_i := P(a_1|t=i)$\\
  			$M_{jk} :=$ Reward for self doing $a_j$ \\ 
  			\hfill and coppy doing $a_k$ 
  		\end{tabular}

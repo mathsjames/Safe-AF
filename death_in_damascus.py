@@ -19,10 +19,10 @@ class Death_In_Damascus(Decision_Problem):
                                               "AAleppo+DAleppo":"END"
                                              }
 
-        self.causation_dict = {("DDamascus", "STAY IN DAMASCUS"):"ADamascus+DDamascus",
-                               ("DDamascus", "FLEE TO ALEPPO"):"AAleppo+DDamascus",
-                               ("DAleppo", "STAY IN DAMASCUS"):"ADamascus+DAleppo",
-                               ("DAleppo", "FLEE TO ALEPPO"):"AAleppo+DAleppo"
+        self.causation_dict = {("DDamascus", "STAY"):"ADamascus+DDamascus",
+                               ("DDamascus", "FLEE"):"AAleppo+DDamascus",
+                               ("DAleppo", "STAY"):"ADamascus+DAleppo",
+                               ("DAleppo", "FLEE"):"AAleppo+DAleppo"
                               }
 
         self.utility_dict = {"ADamascus+DDamascus":0,

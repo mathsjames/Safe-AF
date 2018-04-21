@@ -40,8 +40,7 @@ total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [#
-("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
+test_configs = [#("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
                 #("Epsilon Greedy + Total", AMD, 5, epsilongreedy, total, ["Intersection"]),
                 #("Softmax", EB, 20, softmax, idf, ["Blackmail", "No Blackmail"]),
                 #("Epsilon Greedy", EB, 20, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
