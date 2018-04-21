@@ -14,7 +14,7 @@ from EXP3_agent import *
 from exploration_schemes import *
 
 repetitions = 10 # for testing stability
-iterations = 100000
+iterations = 1000
 #epochs = 1000
 #batch_size = 1
 
@@ -30,7 +30,7 @@ SB_game = Sleeping_Beauty_by_game()
 Conitzer = Conitzer()
 SH = General2by2(lambda dummy: [(2,0),(1,1)],lambda dist: dist, "Stag Hunt")
 
-softmax = Softmax(0.1)
+softmax = Softmax(1)
 epsilongreedy = Epsilon_Greedy(0.01)
 xpcooling = Exponential_cooling()
 cooling_softmax = More_Advanced_Softmax(xpcooling)
@@ -40,22 +40,21 @@ total = Total()
 average = Average()
 idf = Identity_Function()
 
-test_configs = [("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
-                #("Epsilon Greedy + Average", AMD, 5, epsilongreedy, average, ["Intersection"]),
-                ("Softmax + ID", AMD, 5, softmax, idf, ["Intersection"]),
-                #("Epsilon Greedy + ID", AMD,5,  epsilongreedy, idf, ["Intersection"]),
-                ("Softmax", EB, 20, softmax, idf, ["Blackmail", "No Blackmail"]),
-                #("Epsilon Greedy", EB, 5, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
-                ("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
-                ("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
-                ("Softmax", DiD, 20, softmax, idf, ["Death states he will come for you tomorrow"]),
-                #("Epsilon Greedy", DiD, 20, epsilongreedy, idf, ["Death states he will come for you tomorrow"]),
+test_configs = [#
+("Softmax + Total", AMD, 5, softmax, total, ["Intersection"]),
+                #("Epsilon Greedy + Total", AMD, 5, epsilongreedy, total, ["Intersection"]),
+                #("Softmax", EB, 20, softmax, idf, ["Blackmail", "No Blackmail"]),
+                #("Epsilon Greedy", EB, 20, epsilongreedy, idf, ["Blackmail", "No Blackmail"]),
+                #("Softmax", SB_bet, 1, softmax, idf, ["Awake"]),
+                #("Softmax", SB_game, 1, softmax, idf, ["Awake"]),
+                ("Softmax", DiD, 20, softmax, idf, ["warned by death"]),
+                ("Epsilon Greedy", DiD, 20, epsilongreedy, idf, ["warned by death"]),
+                ("Softmax", PDS, 20, softmax, idf, ["START"]),
+                ("Epsilon Greedy", PDS, 20, epsilongreedy, idf, ["START"]),
+                #("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
+                #("Softmax", G2NPR, 20, softmax, average, ["NewRound"]),
                 #("Epsilon Greedy", 20, G2DiD, epsilongreedy, idf, ["NewRound"]),
-                ("Softmax", PDS, 20, cooling_softmax, idf, ["START"]),
-                #("Epsilon Greedy", PDS, 20, epsilongreedy, average, ["START"]),
-                ("Softmax", G2EB, 20, softmax, average, ["NewRound"]),
-                ("Softmax", G2NPR, 20, softmax, average, ["NewRound"]),
-                ("Softmax", Conitzer, 20, softmax, average, ["White", "Black", "Grey", "START"]),
+                ####("Softmax", Conitzer, 20, softmax, average, ["White", "Black", "Grey", "START"]),
                 #("Epsilon Greedy", Conitzer, 20, epsilongreedy, average, ["White", "Black", "Grey", "START"])
 ]
 
@@ -69,9 +68,9 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
 
     for i in range(repetitions):
 
-        #agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
+        agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem, prior)
         #agent = UCB_Agent(learning_scheme, decision_problem, prior)
-        agent = Softmax_UCB_Agent(learning_scheme, decision_problem, prior=prior, temperature=0.1)
+        #agent = Softmax_UCB_Agent(learning_scheme, decision_problem, prior=prior, temperature=0.1)
         #agent = EXP3_Agent(learning_scheme, decision_problem, epsilon=0.01, prior=prior)
 
         history, distribution_history, EXP_history = decision_problem.run(agent, iterations, learn=True, interesting_states=interesting_states)
@@ -100,17 +99,20 @@ for agent_description, decision_problem, prior, exploration_scheme, learning_sch
         for distribution_history in distribution_histories:
             plt.plot(distribution_history[state])
 
-        plt.title("Probability of " + str(agent.actions[0]) + " when " + state + " in " + decision_problem.description)
-        plt.show(decision_problem.description + state + " action distributions")
+        plt.title("Probability of " + str(agent.actions[0]) + " when " + str(state) + " in " + decision_problem.description)
+        plt.ylim([0.0, 1.0])
+        plt.show(decision_problem.description + str(state) + " action distribution")
 
         for EXP_history in EXP_histories:
             plt.plot(EXP_history[state][0])
-        plt.title("EXP of " + agent.actions[0] + " when " + state + " in " + decision_problem.description)
-        plt.show(decision_problem.description + state + " EXP of " + agent.actions[0])
+        plt.title("EXP of " + str(agent.actions[0]) + " when " + str(state) + " in " + decision_problem.description)
+        plt.ylim([0, prior])
+        plt.show(decision_problem.description + str(state) + " EXP of " + agent.actions[0])
 
         for EXP_history in EXP_histories:
             plt.plot(EXP_history[state][1])
-        plt.title("EXP of " + agent.actions[1] + " when " + state + " in " + decision_problem.description)
-        plt.show(decision_problem.description + state + " EXP of " + agent.actions[1])
+        plt.title("EXP of " + str(agent.actions[1]) + " when " + str(state) + " in " + decision_problem.description)
+        plt.ylim([0, prior])
+        plt.show(decision_problem.description + str(state) + " EXP of " + agent.actions[1])
 
     print("###")
