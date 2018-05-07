@@ -112,10 +112,15 @@ P(\lim_{n\rightarrow \infty} X_n = X) = 1
 \end{equation}
 (see \url{https://en.wikipedia.org/wiki/Convergence_of_random_variables#Almost_sure_convergence}). Conversely, we say that the sequence converges to $x$ with positive probability, or $X_i\underset{\text{w.p.p.}}{\rightarrow} x$, if $P(\lim_{i\rightarrow \infty } X_n = x)>0$.
 
-A policy $\pi$ is a (deterministic) function that maps natural number representing the time and a set of Q-values for each pair of an action and an observation onto strategies. Instead of $\pi(i,q)$, we write $\pi_i(q)$.
+A policy $\pi$ is a (deterministic) function that maps a history $H_i$ onto a strategy.
+
+A Q-policy is a policy $\pi$ that only depends on the q-values implied by $H_i$. In abuse of notation, we write
+\begin{equation}
+\pi (H_i) = \pi(Q_i).
+\end{equation}
 
 \section*{Definitions of ratifiability}
-Let $\pi$ be a \enquote{one-shot policy}.
+Let $\pi$ be a Q-policy.
 \begin{itemize}
 \item A strategy $p$ is \textit{weakly ratifiable modulo $\pi$-exploration} if for all $o\in O$ there are $b_{o,1},...,b_{o,n}$ such that $b_{o,j}=U(a_j,o,p)$ if $a_j\in supp (p(o))=\{x\in A\mid p(o,x)>0 \}$ and $b_{o,j}\leq\min_{a_k\in supp (p(o)) } U(a_k,o,p)$ otherwise such that for all $o$ and $a_j\in supp (p(o))$, it is
 \begin{equation}
@@ -133,13 +138,16 @@ ToDo: explain relationship to existing ratifiability proposals and give referenc
 
 \section*{Results}
 
-\begin{thm}\label{theorem:weak-ratifiability-module-exploration}
-Let $\pi$ be a policy s.t. $\pi_i$ is continuous for all $i\in \mathbb{N}$. For each strategy $q$ and each $j\in \{1,...,n\}$ let
+\begin{thm}\label{theorem:weak-ratifiability-modulo-exploration}
+Let $\pi$ be a policy s.t. there is a continuous $\pi_\infty$ s.t.
 \begin{equation}
-\pi_i (q)\rightarrow \pi_\infty (q).
+\pi (H_i)\underset{\text{a.s.}}{\rightarrow} \pi_\infty (Q_i).
 \end{equation}
-Assume that $\pi_\infty$ \enquote{other things equal always gives higher probabilities to the actions with higher utility}.
-Furthermore, let $P_i \underset{w.p.p.}{\rightarrow} \mathbf{p}$ and let $U(a,o,p)$ be continuous in $p$ around $\mathbf{p}$ for each $a\in A$ and $o\in O$. Then $\mathbf{p}$ is weakly ratifiable modulo $\pi$-exploration.
+Assume that for all $q$, $k,k'$ and $o$, it is
+\begin{equation}
+\pi_\infty(q)(a_k,o) > \pi_\infty(q)(a_{k'},o) \iff q_{k,o} > q_{k',o},
+\end{equation}
+i.e. that in the limit $\pi$ gives higher probabilities to actions with higher empirical Q-values. Furthermore, let $P_i \underset{w.p.p.}{\rightarrow} \mathbf{p}$ and let $U(a,o,p)$ be continuous in $p$ around $\mathbf{p}$ for each $a\in A$ and $o\in O$. Then $\mathbf{p}$ is weakly ratifiable modulo $\pi_\infty$-exploration.
 \end{thm}
 
 \begin{proof}
@@ -151,14 +159,14 @@ according to the strong law of large numbers, the fact that $U(a,p)$ is continuo
 
 Because $\pi_\infty$ prefers better actions, it has to be for all $o$
 \begin{equation}
-a_j\notin supp(\mathbf{p}(o)) \implies b_j \leq \min_{a_k\in supp (\mathbf{p}(o)) } U(a_k,\mathbf{p}(o)).
+a_j\notin supp(\mathbf{p}(o)) \implies b_{j,o} \leq \min_{a_k\in supp (\mathbf{p}(o)) } U(a_k,\mathbf{p}(o)).
 \end{equation}
 
 If $Q_i(a_j,o)\rightarrow b_{j,o}$, then
 \begin{equation}
-P_i=\pi_i(Q_i)\rightarrow \pi_\infty (b),
+P_i=\pi(H_i)\underset{\text{a.s.}}{\rightarrow} \pi_\infty(Q_i)\rightarrow \pi_\infty (b).
 \end{equation}
-because $\pi_i$ and $\pi_\infty$ are continuous.
+The latter follows from the fact that $\pi_\infty$ is continuous combined with the aforementioned result about the limit of composite functions.
 
 From the premises of the theorem, we have now inferred that w.p.p. it is not only $P_i\rightarrow \mathbf{p}$ but at the same time also $P_i\rightarrow \pi_\infty (b)$. Hence, it must be $\mathbf{p}=\pi_\infty(b)$, where the $b_i$ satisfy the necessary conditions for weak ratifiability modulo $\pi_\infty$-exploration.
 
@@ -168,30 +176,38 @@ From the premises of the theorem, we have now inferred that w.p.p. it is not onl
 
 ToDo: example + graph
 
-\begin{corollary}[Weak Ratifiability]
-Same conditions as for theorem \ref{theorem:weak-ratifiability-module-exploration}, but also assume that $\pi_\infty$ doesn't explore, i.e. that
+
+
+\begin{corollary}[Weak Ratifiability]\label{corollary:weak-ratifiability}
+Same conditions as for theorem \ref{theorem:weak-ratifiability-modulo-exploration}. In addition, assume that there exists a $\delta\in \mathbb{R}_+$ such that 
 \begin{equation}
-\pi_\infty(v)(a_j,o) >0 \iff j\in \argmax_k v_{k, o}.
+\pi_\infty(v)(a_j,o) >0 \iff v_{j,o} > \max_k v_{k, o} - \delta.
 \end{equation}
-Then $\mathbf{p}$ is weakly ratifiable.
+Assume also that for all $a_j,a_i$ and $o$, it is $d(U(a_j,o,\mathbf{p}),U(a_i,o,\mathbf{p}))\notin \left(0,\delta \right]$. Then $\mathbf{p}$ is weakly ratifiable.
 \end{corollary}
+
+\begin{proof}
+Follows directly from theorem \ref{theorem:weak-ratifiability-modulo-exploration} and the definitions of strong ratifiability modulo $\pi_\infty$ and strong ratifiability period.
+\end{proof}
 
 ToDo: example + graph
 
-\begin{thm}\label{theorem:strong-ratifiability-module-exploration}
-Same conditions as theorem \ref{theorem:weak-ratifiability-module-exploration}. Assume also that $\pi$ almost surely explores all actions infinitely many times. Then $\mathbf{p}$ is strongly ratifiable modulo $\pi_\infty$-exploration. 
+Note that, while $\delta=0$ -- i.e., convergence to greediness -- is a natural choice, our results do not cover it, because $\pi_\infty$ has to be continuous. That said, we get the same result if convergence to greediness is sufficiently slow. (We don't have a theorem for it now, though.)
+
+\begin{thm}\label{theorem:strong-ratifiability-modulo-exploration}
+Same conditions as theorem \ref{theorem:weak-ratifiability-modulo-exploration}. Assume also that $\pi$ almost surely explores all actions infinitely many times. Then $\mathbf{p}$ is strongly ratifiable modulo $\pi_\infty$-exploration. 
 \end{thm}
 \begin{proof}
-Analogous to the proof of theorem \ref{theorem:weak-ratifiability-module-exploration}.
+Analogous to the proof of theorem \ref{theorem:weak-ratifiability-modulo-exploration}.
 \end{proof}
 
 ToDo: example + graph
 
 \begin{corollary}[Strong Ratifiability]
-Same conditions as theorem \ref{theorem:strong-ratifiability-module-exploration}. Assume also that $\pi_\infty$ doesn't explore. Then $\mathbf{p}$ is strongly ratifiable.
+Same conditions as theorem \ref{theorem:strong-ratifiability-modulo-exploration}. Assume also the additional assumptions of corollary \ref{corollary:weak-ratifiability}. Then $\mathbf{p}$ is strongly ratifiable.
 \end{corollary}
 \begin{proof}
-Follows directly from theorem \ref{theorem:strong-ratifiability-module-exploration} and the definitions of strong ratifiability modulo $\pi_\infty$ and strong ratifiability period.
+Follows directly from theorem \ref{theorem:strong-ratifiability-modulo-exploration} and the definitions of strong ratifiability modulo $\pi_\infty$ and strong ratifiability period.
 \end{proof}
 
 ToDo: example + graph
@@ -206,7 +222,8 @@ Notes for generalization:
 \item \sout{Include anthropic cases. What utilities do the Q-values converge to in the anthropic cases? Define two different kinds of Q-values. Then add a lemma showing that they converge to the respective expected utilities.}
 \item \sout{Instead of Q-values, one could use ``forgetful Q-values'' as long these converge toward U at constant probabilities.}
 \item \sout{Do I need continuity (for $U$, $\pi_i$ and $\pi_\infty$) or just sth like continuity almost everyhwere?}
-\item What if $\pi$ takes other information into account (like Gittins-indices, and UCB) but converges to ignoring that information in the limit?
+\item \sout{What if $\pi$ takes other information into account (like Gittins-indices, and UCB) but converges to ignoring that information in the limit?}
+\item What things have to be finite? E.g., set of actions?
 \end{itemize}
 
 \section*{Ratifiability of frequencies}
@@ -280,5 +297,17 @@ EU_{SIA}(o\rightarrow a,p)=\sum_{tree\in T} P(tree\mid p) \sum_{node\in tree\tex
 \begin{equation}
 EU_{SSA}(o\rightarrow a,p)=\sum_{tree\in T} P(tree\mid p) \sum_{node\in tree\text{ with} o} P_{SIA}(node \mid p) \sum_{\text{terminal }t\in tree} P(t \mid a\text{ in }node, p) u(t)
 \end{equation}
+
+\subsection*{Old corollaries}
+
+\begin{corollary}[Weak Ratifiability (OLD)]
+Same conditions as for theorem \ref{theorem:weak-ratifiability-modulo-exploration}, but also assume that $\pi_\infty$ doesn't explore, i.e. that
+\begin{equation}
+\pi_\infty(v)(a_j,o) >0 \iff j\in \argmax_k v_{k, o}.
+\end{equation}
+Then $\mathbf{p}$ is weakly ratifiable.
+\end{corollary}
+
+ToDo: atm, this corollary is trivially true because its assumptions are always false. $\pi_\infty$ cannot be greedy and at the same be continuous. --- The problem is this: We need to show that if $Q_i\rightarrow b$, then $\pi(H_i)\rightarrow \pi_\infty (b)$. But if $\pi_\infty$ can be discontinuous at $b$, we also need to assume that $\pi$ convergence to discontinuity is slower than the convergence of $Q_i$ to $b$. Hypothesis: ...
 
 \end{document}
