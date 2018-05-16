@@ -1,5 +1,5 @@
 import numpy as np
-from decision_problem import Decision_Problem
+from Decision_Problems.decision_problem import Decision_Problem
 
 class Prisoners_Dilemma_against_copy(Decision_Problem):
 
