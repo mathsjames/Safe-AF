@@ -1,7 +1,6 @@
 import numpy as np
-from decision_problem import Decision_Problem
-from agents import *
-from training_data import *
+from Decision_Problems.decision_problem import Decision_Problem
+from Decision_Problems.training_data import *
 import math
 #import matplotlib.pyplot as plt
 

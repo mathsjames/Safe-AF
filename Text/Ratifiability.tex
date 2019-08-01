@@ -1,0 +1,315 @@
+\documentclass{article}
+
+\usepackage[a4paper]{geometry}
+
+\pdfoutput=1
+\usepackage{amssymb}	% Allows use of AMS's mathematical symbols
+\usepackage{latexsym}	% Allows use of old latex symbols
+\usepackage{amsmath}
+\usepackage{amsthm}
+
+\usepackage[normalem]{ulem}
+\usepackage{subfig}
+
+
+%define absolute value
+\usepackage{mathtools}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}%
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}%
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+
+\usepackage{multirow}
+
+\usepackage{microtype}  % Kann einige Badnesses eliminieren
+
+\usepackage{hyperref}   % Auskommentieren, um Referenzen etc. anklickbar zu machen.
+
+\usepackage{cleveref}
+
+\usepackage{array}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcolumntype{N}{@{}m{0pt}@{}}
+%FROM: http://tex.stackexchange.com/questions/159257/increase-latex-table-row-height
+
+\usepackage[backend=biber,natbib=true,style=authoryear-comp,citestyle=authoryear]{biblatex}
+%natbib=true,style=authortitle-icomp,style=authoryear
+%\usepackage{cite}
+%\usepackage[authoryear]{natbib}
+%authortitle-icomp
+
+%% For old versions of latex, replace the above three lines by
+%\documentstyle[amssymbols]{article}
+
+\usepackage[utf8]{inputenc} %Auch utf8 kann eine gute Idee sein
+\usepackage{csquotes}
+\usepackage[english]{babel}
+
+\usepackage{graphicx}
+
+\usepackage{colonequals}
+\newcommand*{\logeq}{\ratio\Leftrightarrow}
+
+\usepackage{mathtools}
+
+\DeclareMathOperator*{\cov}{cov}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+
+\usepackage{xcolor}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+
+
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usetikzlibrary{positioning}
+\usetikzlibrary{arrows}
+\usetikzlibrary{trees}
+\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=1cm,inner sep=0pt},
+            }
+
+
+\newcommand{\TRUE}{\textsf{T}}
+\newcommand{\FALSE}{\textsf{F}}
+
+%From http://tex.stackexchange.com/questions/588/how-can-i-change-the-margins-for-only-part-of-the-text
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist
+
+
+\usepackage{multirow,array}
+
+\newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+
+\newtheorem{thm}{Theorem} %Theoreme
+\newtheorem{corollary}[thm]{Corollary}
+
+\newcommand{\overbar}[1]{\mkern 1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern 1.5mu}
+
+\title{OUTDATED: Relation to ratifiability}
+
+\begin{document}
+\maketitle
+
+This document is outdated. It is now part of the paper itself at \url{https://www.overleaf.com/15967942nryjzzkzrywq#/60911829/}.
+
+\section*{Setup}
+
+ToDo: I expect all fo this to be re-done once we integrate all of our work into a more unified paper.
+
+For now, I'll only consider games without anthropics and without different situations. The agent submits a probability distribution once, an action is sampled from it and then the environment behaves in some way depending on that action and probability distribution.
+
+Our decision problems have a set of actions $A$ and a set of observations $O$ and a set of (hidden) states that give rise to observations. The decision problem has to be such that no anthropic uncertainty can arise. That is, no matter the policies and actions of the agent, it is impossible to get an observation twice during a single run of the decision problem. (Otherwise, the $Q$-values become non-trivial to define and the law of large numbers doesn't give us the convergence of the $Q$ values to expected values anymore.)
+
+Let $P_i$ denote the sequence of strategies $O\rightsquigarrow A$. Note that the $P_i$ are random variables. Let $Q_i\in \mathbb{R}^ {O\times A}$ be the sequence of empirical EVs a.k.a. Q-values, again random variables. Let $U(a,o,p)$ be the actual EV given an action $a$ upon observation $o$ and strategy $p$, where $U$ is continuous in $p$. (Defining $U$ such that it also assigns expected utilities to actions that are assigned zero probability is important for discussing the behavior of $U$ in the limit.) (Unfortunately, this function cannot be as easily defined for problems involving anthropics and so forth.)
+
+We say a sequence of random variables $(X_i)_{i\in\mathbb{N}}$ converges almost surely to $x$, or $X_i\underset{\text{a.s.}}{\rightarrow} x$, if
+\begin{equation}
+P(\lim_{n\rightarrow \infty} X_n = X) = 1
+\end{equation}
+(see \url{https://en.wikipedia.org/wiki/Convergence_of_random_variables#Almost_sure_convergence}). Conversely, we say that the sequence converges to $x$ with positive probability, or $X_i\underset{\text{w.p.p.}}{\rightarrow} x$, if $P(\lim_{i\rightarrow \infty } X_n = x)>0$.
+
+A policy $\pi$ is a (deterministic) function that maps a history $H_i$ onto a strategy.
+
+A Q-policy is a policy $\pi$ that only depends on the q-values implied by $H_i$. In abuse of notation, we write
+\begin{equation}
+\pi (H_i) = \pi(Q_i).
+\end{equation}
+
+\section*{Definitions of ratifiability}
+Let $\pi$ be a Q-policy.
+\begin{itemize}
+\item A strategy $p$ is \textit{weakly ratifiable modulo $\pi$-exploration} if for all $o\in O$ there are $b_{o,1},...,b_{o,n}$ such that $b_{o,j}=U(a_j,o,p)$ if $a_j\in supp (p(o))=\{x\in A\mid p(o,x)>0 \}$ and $b_{o,j}\leq\min_{a_k\in supp (p(o)) } U(a_k,o,p)$ otherwise such that for all $o$ and $a_j\in supp (p(o))$, it is
+\begin{equation}
+p(a_j,o)=\pi \left( (b_{r,i})_{r\in O, i=1,...,n} \right) (a_j).
+\end{equation}
+\item A strategy $p$ is \textit{weakly ratifiable} if for all $o\in O$, $U(a,o,p)$ is constant over $a\in supp(p(o))$.
+\item A probability distribution over actions $p$ is \textit{strongly ratifiable modulo $\pi$-exploration} if for all $o\in O$ and all $a_j\in A$, it is
+\begin{equation}
+p(a_j, o)=\pi (U(a_i,r,p)_{a_i\in A, r\in O}) (a_j).
+\end{equation}
+\item A probability distribution over actions $p$ is \textit{strongly ratifiable} if for all $o\in O$, $U(a,o, p)$ is constant over $a\in supp(p(o))$ and lower than that constant for $a\notin supp(p(o))$.
+\end{itemize}
+
+ToDo: explain relationship to existing ratifiability proposals and give references on ratifiability (including ones related to the tickle defense)
+
+\section*{Results}
+
+\begin{thm}\label{theorem:weak-ratifiability-modulo-exploration}
+Let $\pi$ be a policy s.t. there is a continuous $\pi_\infty$ s.t.
+\begin{equation}
+\pi (H_i)\underset{\text{a.s.}}{\rightarrow} \pi_\infty (Q_i).
+\end{equation}
+Assume that for all $q$, $k,k'$ and $o$, it is
+\begin{equation}
+\pi_\infty(q)(a_k,o) > \pi_\infty(q)(a_{k'},o) \iff q_{k,o} > q_{k',o},
+\end{equation}
+i.e. that in the limit $\pi$ gives higher probabilities to actions with higher empirical Q-values. Furthermore, let $P_i \underset{w.p.p.}{\rightarrow} \mathbf{p}$ and let $U(a,o,p)$ be continuous in $p$ around $\mathbf{p}$ for each $a\in A$ and $o\in O$. Then $\mathbf{p}$ is weakly ratifiable modulo $\pi_\infty$-exploration.
+\end{thm}
+
+\begin{proof}
+If indeed $P_i \rightarrow \mathbf{p}$, then $Q_i(a,o)$ converges almost surely for all $a\in A$ and $o\in O$. For all $a_j\in A$ and $o\in O$, let $Q_i(a_j,o) \rightarrow b_{j,o}$. In particular, if $a\in supp(\mathbf{p}(o))$ (or, in fact, more generally if $a$ is taken infinitely many times in response to $o$ almost surely), then
+\begin{equation}
+Q_i(a,o)\underset{\text{a.s.}}{\rightarrow} U(a,o,\mathbf{p})
+\end{equation}
+according to the strong law of large numbers, the fact that $U(a,p)$ is continuous in $p$ around $\mathbf{p}$ and the standard theorem about the limit of composite functions (TODO maybe \url{http://elib.mi.sanu.ac.rs/files/journals/tm/22/tm1211.pdf} and \url{http://www.math.uconn.edu/~stein/math115/Slides/math115-130notes.pdf}).
+
+Because $\pi_\infty$ prefers better actions, it has to be for all $o$
+\begin{equation}
+a_j\notin supp(\mathbf{p}(o)) \implies b_{j,o} \leq \min_{a_k\in supp (\mathbf{p}(o)) } U(a_k,\mathbf{p}(o)).
+\end{equation}
+
+If $Q_i(a_j,o)\rightarrow b_{j,o}$, then
+\begin{equation}
+P_i=\pi(H_i)\underset{\text{a.s.}}{\rightarrow} \pi_\infty(Q_i)\rightarrow \pi_\infty (b).
+\end{equation}
+The latter follows from the fact that $\pi_\infty$ is continuous combined with the aforementioned result about the limit of composite functions.
+
+From the premises of the theorem, we have now inferred that w.p.p. it is not only $P_i\rightarrow \mathbf{p}$ but at the same time also $P_i\rightarrow \pi_\infty (b)$. Hence, it must be $\mathbf{p}=\pi_\infty(b)$, where the $b_i$ satisfy the necessary conditions for weak ratifiability modulo $\pi_\infty$-exploration.
+
+%TODO b_1,...,b_n--> b
+
+\end{proof}
+
+ToDo: example + graph
+
+
+
+\begin{corollary}[Weak Ratifiability]\label{corollary:weak-ratifiability}
+Same conditions as for theorem \ref{theorem:weak-ratifiability-modulo-exploration}. In addition, assume that there exists a $\delta\in \mathbb{R}_+$ such that 
+\begin{equation}
+\pi_\infty(v)(a_j,o) >0 \iff v_{j,o} > \max_k v_{k, o} - \delta.
+\end{equation}
+Assume also that for all $a_j,a_i$ and $o$, it is $d(U(a_j,o,\mathbf{p}),U(a_i,o,\mathbf{p}))\notin \left(0,\delta \right]$. Then $\mathbf{p}$ is weakly ratifiable.
+\end{corollary}
+
+\begin{proof}
+Follows directly from theorem \ref{theorem:weak-ratifiability-modulo-exploration} and the definitions of strong ratifiability modulo $\pi_\infty$ and strong ratifiability period.
+\end{proof}
+
+ToDo: example + graph
+
+Note that, while $\delta=0$ -- i.e., convergence to greediness -- is a natural choice, our results do not cover it, because $\pi_\infty$ has to be continuous. That said, we get the same result if convergence to greediness is sufficiently slow. (We don't have a theorem for it now, though.)
+
+\begin{thm}\label{theorem:strong-ratifiability-modulo-exploration}
+Same conditions as theorem \ref{theorem:weak-ratifiability-modulo-exploration}. Assume also that $\pi$ almost surely explores all actions infinitely many times. Then $\mathbf{p}$ is strongly ratifiable modulo $\pi_\infty$-exploration. 
+\end{thm}
+\begin{proof}
+Analogous to the proof of theorem \ref{theorem:weak-ratifiability-modulo-exploration}.
+\end{proof}
+
+ToDo: example + graph
+
+\begin{corollary}[Strong Ratifiability]
+Same conditions as theorem \ref{theorem:strong-ratifiability-modulo-exploration}. Assume also the additional assumptions of corollary \ref{corollary:weak-ratifiability}. Then $\mathbf{p}$ is strongly ratifiable.
+\end{corollary}
+\begin{proof}
+Follows directly from theorem \ref{theorem:strong-ratifiability-modulo-exploration} and the definitions of strong ratifiability modulo $\pi_\infty$ and strong ratifiability period.
+\end{proof}
+
+ToDo: example + graph
+
+We won't give the details here, but if infinite exploration is not given, then in some problems there is a positive probability that an action will, based on bad luck, be severely underestimated, such that the agent then stops to take that action. Thus, the algorihtm might converge on some $\mathbf{p}$ under which action $a\notin supp(\mathbf{p})$ should be taken.
+
+Notes for generalization:
+\begin{itemize}
+\item \sout{Probably, I could easily generalize this to expected values conditional on some observation.}
+\item \sout{If you explore all options infinitely often almost surely, you almost surely converge to a strongly ratifiable solution. If you don't explore all options infinitely often almost surely, there is a positive probability that it doesn't converge to a strongly ratifiable option.}
+\item \sout{If it doesn't converge, then there is still ratifiability of some frequency construct, perhaps?}
+\item \sout{Include anthropic cases. What utilities do the Q-values converge to in the anthropic cases? Define two different kinds of Q-values. Then add a lemma showing that they converge to the respective expected utilities.}
+\item \sout{Instead of Q-values, one could use ``forgetful Q-values'' as long these converge toward U at constant probabilities.}
+\item \sout{Do I need continuity (for $U$, $\pi_i$ and $\pi_\infty$) or just sth like continuity almost everyhwere?}
+\item \sout{What if $\pi$ takes other information into account (like Gittins-indices, and UCB) but converges to ignoring that information in the limit?}
+\item What things have to be finite? E.g., set of actions?
+\end{itemize}
+
+\section*{Ratifiability of frequencies}
+
+Even if the probabilities do not converge at all, the frequencies of actions over many turns usually do. In fact, they often converge to ratifiable ones.  E.g., in Death in Damascus, even if the probabilities do not converge, the frequencies converge to the ratifiable 50-50. TODO example with graph. TODO refer to Linda's section.
+
+But this does not seem to be true in general, even if the other prerequisites of the theorem are met. Roughly, the reason is the following: the frequencies arising from applying the learning algorithm are based on the success of actions for the success probabilities, rather than that frequency itself. So, the frequencies can converge to 50-50 based on how the actions behave if the probability is far removed from 50-50, even if at a (hypothetical) probability of 50-50, one of the actions is better than the other. Again, TODO example with graph.
+
+\section*{Obsolete stuff}
+
+\subsection*{Old proof of theorem 1}
+
+\textbf{1.} For all $a_j\in supp (\mathbf{p})$, if indeed $P_i\rightarrow \mathbf{p}$, then 
+\begin{equation}\label{eq:proof-part-one-main-eq}
+Q_i(a_j)\underset{\text{a.s.}}{\rightarrow} U(a_j,\mathbf{p})
+\end{equation}
+because $U(a,p)$ is continuous in $p$. Hence we define for $a_j\in supp (\mathbf{p})$: $b_j=U(a_j,\mathbf{p})$
+
+\textbf{2.} If $P_i\rightarrow \mathbf{p}$, then because $\pi$ prefers better options in the limit, there must be an $N$ such that for all $i>N$ and all $a\notin supp (\mathbf{p})$ it must be
+\begin{equation}\label{eq:proof-part-two-main-eq}
+Q_i(a)\leq \min_{a_k\in supp (\mathbf{p}) } U(a_k,\mathbf{p}).
+\end{equation}
+
+\textbf{3.} As $P_i \rightarrow \mathbf{p}$, $Q_i(a_j)$ almost surely converges to some value even for $a_j\notin supp(\mathbf{p})$. Because of step 2, these values are smaller than $\min_{a_k\in supp (\mathbf{p}) } U(a_k,\mathbf{p})$. Hence, we will use these limits as $b_j$.
+
+\textbf{4.} If $Q_i(a_j)\rightarrow b_j$ for all $a_j\in A$, then
+\begin{equation}\label{eq:proof-part-four-main-eq}
+P_i \rightarrow \pi_\infty (b_1,...,b_n).
+\end{equation}
+
+\textbf{5.} From the conditions of the hypothesis and steps 1--4, it follows that with positive probability, it is both $P_i\rightarrow \mathbf{p}$ and for all $a_j\in supp(\mathbf{p})$
+\begin{equation}\label{eq:proof-part-five-main-eq}
+P_i(a_j) \rightarrow \pi_\infty  (b_1,...,b_n)(a_j).
+\end{equation}
+Hence it must be for all $a_j\in supp(\mathbf{p})$
+\begin{equation}
+\mathbf{p}(a_j)=\pi_\infty (b_1,...,b_n)(a_j),
+\end{equation}
+where the $b_j$ satisfy the claims made in the hypothesis.
+
+\subsection*{Old introduction with anthropics}
+
+A (potentially Newcomb-like) decision problem consists of
+\begin{itemize}
+\item a set of actions $A$,
+\item a set of (deterministic) decision trees $T$ over $A$ with end-points in $\mathbb{R}$,
+\item a set of observations $O$,
+\item a function $f:\mathcal{P}^O \rightsquigarrow T$ .
+\end{itemize}
+A policy
+\begin{equation}
+\pi:\mathbb{N}\times \mathbb{R}^A \rightsquigarrow A=\{a_1,...,a_n\}
+\end{equation}
+is a function mapping a time step and a mapping of empirical expected values / Q-values onto probability distributions over actions.
+
+The outcome of an individual run of the decision problem is obtained as follows. For each observation $o\in O$, $\pi$ submits a probability distribution based on the current Q-values. Based on that probability distribution, the environment (non-deterministically) chooses a decision tree (using $f$). Then the decision tree is traversed, sampling from the probability distributions given by $\pi$ for the respective observations.
+
+Note that because the Q-values are only updated once the decision problem is fully run, the agent will submit the same probability distributions in all nodes of the decision tree in which it faces the same observation $o$.
+
+Definition of the Q-values:
+\begin{equation}
+Q_{SSA}(a,o) = \sum_{\text{episode }e\text{ with }o\rightarrow a} u_e,
+\end{equation} where $u_e$ is the utility gained in episode $e$.
+\begin{equation}Q_{SIA} (a,o) = \sum_{\text{episode }e\text{ with }o\rightarrow a} \#(a\text{ in }e) \cdot u_e,\end{equation}
+where $\#(a\text{ in }e)$ denotes the number of times action $a$ is taken in episode $e$.
+
+\begin{equation}
+EU_{SIA}(o\rightarrow a,p)=\sum_{tree\in T} P(tree\mid p) \sum_{node\in tree\text{ with} o} P_{SIA}(node \mid p) \sum_{\text{terminal }t\in tree} P(t \mid a\text{ in }node, p) u(t)
+\end{equation}
+
+\begin{equation}
+EU_{SSA}(o\rightarrow a,p)=\sum_{tree\in T} P(tree\mid p) \sum_{node\in tree\text{ with} o} P_{SIA}(node \mid p) \sum_{\text{terminal }t\in tree} P(t \mid a\text{ in }node, p) u(t)
+\end{equation}
+
+\subsection*{Old corollaries}
+
+\begin{corollary}[Weak Ratifiability (OLD)]
+Same conditions as for theorem \ref{theorem:weak-ratifiability-modulo-exploration}, but also assume that $\pi_\infty$ doesn't explore, i.e. that
+\begin{equation}
+\pi_\infty(v)(a_j,o) >0 \iff j\in \argmax_k v_{k, o}.
+\end{equation}
+Then $\mathbf{p}$ is weakly ratifiable.
+\end{corollary}
+
+ToDo: atm, this corollary is trivially true because its assumptions are always false. $\pi_\infty$ cannot be greedy and at the same be continuous. --- The problem is this: We need to show that if $Q_i\rightarrow b$, then $\pi(H_i)\rightarrow \pi_\infty (b)$. But if $\pi_\infty$ can be discontinuous at $b$, we also need to assume that $\pi$ convergence to discontinuity is slower than the convergence of $Q_i$ to $b$. Hypothesis: ...
+
+\end{document}

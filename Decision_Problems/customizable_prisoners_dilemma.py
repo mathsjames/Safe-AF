@@ -1,5 +1,5 @@
 import numpy as np
-from prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
+from Decision_Problems.prisoners_dilemma_against_copy import Prisoners_Dilemma_against_copy
 
 class customisable_prisoners_dilemma(Prisoners_Dilemma_against_copy):
     def __init__(self, ratio):

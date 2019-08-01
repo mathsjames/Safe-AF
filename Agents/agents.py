@@ -1,50 +1,5 @@
 import numpy as np
 
-## Training data preprocessing functions ##
-
-class Identity_Function: # Should be used for all 1-step games
-    def __init__(self):
-        pass
-    def process(self, history):
-        return history
-
-class Temporal_Discounting:
-    def __init__(self, rate):
-        self.rate = rate
-    def process(self, history):
-        # TODO
-        return history
-
-class Average:
-    def __init__(self):
-        pass
-    def process(self, history):
-        ans = []
-        for episode in history:
-            average_reward = sum([i.reward for i in episode.steps])/len(episode.steps)
-            e = episode.copy()
-            for step in e.steps:
-                step.reward = average_reward
-            ans.append(e)
-        return ans
-
-class Total:
-    # Q-learning
-    def __init__(self):
-        pass
-    def process(self, history):
-        ans = []
-        for episode in history:
-            total = 0
-            e = episode.copy()
-            for step in e.steps[::-1]:
-                total += step.reward
-                step.reward = total
-            ans.append(e)
-        return ans
-
-## Agents ##
-
 class Simple_Agent:
 
     def __init__(self, exploration_scheme, learning_scheme, decision_problem, prior):
@@ -67,7 +22,7 @@ class Simple_Agent:
     def get_action_distribution(self, epistemic_state):
 
         xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
-        action_probabilities = self.exploration.function(xp)
+        action_probabilities = self.exploration.function(xp, self.games_played)
         return action_probabilities
 
     def get_expected_rewards(self, epistemic_state):
@@ -93,14 +48,9 @@ class Simple_Agent:
                 self.expected_utility[epistemic_state][action] = (reward+exp*i)/(i+1.0)
                 self.times_action_taken[epistemic_state][action] += 1
 
-class More_Advanced_Agent(Simple_Agent):
-
-    def get_action_distribution(self, epistemic_state):
-        xp = [self.expected_utility[epistemic_state][action] for action in self.actions]
-        action_probabilities = self.exploration.function(xp, self.games_played)
-        return action_probabilities
-
 class Forgetfull_Agent(Simple_Agent):
+
+    ## Similar to Simple_Agent, but recent observations are given greater weight
 
     def __init__(self, exploration_scheme, learning_scheme, decision_problem, memory_time_discounting):
 

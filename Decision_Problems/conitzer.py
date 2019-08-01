@@ -1,14 +1,11 @@
 import numpy as np
 import itertools
-from decision_problem import Decision_Problem
-from agents import Simple_Agent, Average
-from exploration_schemes import Softmax
+from Decision_Problems.decision_problem import Decision_Problem
 
+# A description of the anthropic/DT problem described by Conitzer as a counterexample to DT+double-halfer
+# Reference: https://users.cs.duke.edu/~conitzer/dutchSYNTHESE.pdf
 
-#A description of the anthropic/DT problem described by Conitzer as a counterexample to DT+double-halfer here: https://users.cs.duke.edu/~conitzer/dutchSYNTHESE.pdf
 class Conitzer(Decision_Problem):
-
-    # Full specification of the absent-minded driver problem
 
     def __init__(self):
         self.actions = [True, False]
@@ -72,17 +69,3 @@ class Conitzer(Decision_Problem):
                 coin2 = "Black"
 
         self.state = ((coin1,coin2),())
-
-
-'''
-decision_problem = Conitzer()
-exploration_scheme = Softmax(0.1)
-learning_scheme = Average()
-agent = Simple_Agent(exploration_scheme, learning_scheme, decision_problem)
-history = decision_problem.run(agent,1000000, True)
-print(history)
-print(agent.get_action_distribution("White"))
-print(agent.get_action_distribution("Black"))
-print(agent.get_action_distribution("Grey"))
-print(agent.get_action_distribution("START"))
-'''

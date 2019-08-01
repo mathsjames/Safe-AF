@@ -1,5 +1,5 @@
 import numpy as np
-from training_data import *
+from Decision_Problems.training_data import *
 import matplotlib.pyplot as plt
 
 class Decision_Problem:

@@ -1,4 +1,4 @@
-from exploration_schemes import *
+from Agents.exploration_schemes import *
 import math
 
 class UCB_Agent:
